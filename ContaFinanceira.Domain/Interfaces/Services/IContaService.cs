@@ -11,5 +11,7 @@ namespace ContaFinanceira.Domain.Interfaces.Services
     public interface IContaService
     {
         Task<ContaResponse> Criar(ContaRequest request);
+        Task<bool> ValidaContaExiste(int id);
+        Task<bool> ValidaSenhaCorreta(int contaId, string senha);
     }
 }

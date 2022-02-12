@@ -11,5 +11,6 @@ namespace ContaFinanceira.Domain.Interfaces.Services
     public interface ITransacaoService
     {
         Task<List<TransacaoResponse>> Adicionar(TransacaoRequest request);
+        bool ValidarSaldoSuficiente(int contaId, decimal valor);
     }
 }

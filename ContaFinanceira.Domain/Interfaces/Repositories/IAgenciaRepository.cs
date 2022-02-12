@@ -10,5 +10,7 @@ namespace ContaFinanceira.Domain.Interfaces.Repositories
     public interface IAgenciaRepository : IBaseRepository<Agencia>
     {
         Task<List<Agencia>> Listar();
+
+        Task<Agencia> Pesquisar(int id);
     }
 }

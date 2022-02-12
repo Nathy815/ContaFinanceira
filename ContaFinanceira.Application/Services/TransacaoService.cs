@@ -22,39 +22,34 @@ namespace ContaFinanceira.Application.Services
              
         public async Task<List<TransacaoResponse>> Adicionar(TransacaoRequest request)
         {
-            if (ValidarSaldo(request))
+            var transacao = new Transacao()
             {
-                var transacao = new Transacao()
+                ContaId = request.ContaId,
+                Data = DateTime.Now,
+                Valor = request.Valor
+            };
+
+            await _transacaoRepository.Criar(transacao);
+
+            var transacoes = await _transacaoRepository.Listar(request.ContaId);
+
+            var response = new List<TransacaoResponse>();
+            foreach (var trans in transacoes)
+                response.Add(new TransacaoResponse()
                 {
-                    ContaId = request.ContaId,
-                    Data = DateTime.Now,
-                    Valor = request.Valor
-                };
+                    Id = trans.Id,
+                    Data = trans.Data,
+                    Valor = trans.Valor
+                });
 
-                await _transacaoRepository.Criar(transacao);
-
-                var transacoes = await _transacaoRepository.Listar(request.ContaId);
-
-                var response = new List<TransacaoResponse>();
-                foreach (var trans in transacoes)
-                    response.Add(new TransacaoResponse()
-                    {
-                        Id = trans.Id,
-                        Data = trans.Data,
-                        Valor = trans.Valor
-                    });
-
-                return response;
-            }
-            else
-                return null;
+            return response;
         }
 
-        private bool ValidarSaldo(TransacaoRequest request)
+        public bool ValidarSaldoSuficiente(int contaId, decimal valor)
         {
-            var saldo = _transacaoRepository.Saldo(request.ContaId);
+            var saldo = _transacaoRepository.Saldo(contaId);
 
-            return saldo + request.Valor >= 0;
+            return saldo + valor >= 0;
         }
     }
 }

@@ -9,5 +9,6 @@ namespace ContaFinanceira.Domain.Interfaces.Repositories
 {
     public interface IContaRepository : IBaseRepository<Conta>
     {
+        Task<Conta> Pesquisar(int id);
     }
 }

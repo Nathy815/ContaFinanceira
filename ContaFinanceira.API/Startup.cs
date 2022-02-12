@@ -20,6 +20,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using ContaFinanceira.Domain.Requests;
+using ContaFinanceira.Application.Validations;
 
 namespace ContaFinanceira.API
 {
@@ -45,6 +49,17 @@ namespace ContaFinanceira.API
                     .AddTransient<IClienteRepository, ClienteRepository>()
                     .AddTransient<IContaRepository, ContaRepository>()
                     .AddTransient<ITransacaoRepository, TransacaoRepository>();
+
+            #endregion
+
+            #region Validações
+
+            services.AddMvc()
+                    .AddFluentValidation();
+
+            services.AddTransient<IValidator<AutenticacaoRequest>, AutenticacaoRequestValidation>()
+                    .AddTransient<IValidator<ContaRequest>, ContaRequestValidation>()
+                    .AddTransient<IValidator<TransacaoRequest>, TransacaoRequestValidation>();
 
             #endregion
 
@@ -103,6 +118,18 @@ namespace ContaFinanceira.API
             #endregion
 
             services.AddControllers();
+
+            services.AddCors(x =>
+            {
+                x.AddPolicy("Conta Financeira Policy",
+                            builder =>
+                            {
+                                builder.AllowAnyMethod()
+                                       .AllowAnyHeader()
+                                       .AllowAnyOrigin();
+                            });
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Conta Financeira", Version = "v1" });
@@ -153,6 +180,11 @@ namespace ContaFinanceira.API
             {
                 endpoints.MapControllers();
             });
+
+            app.UseCors(x => x.AllowAnyHeader()
+                              .AllowAnyMethod()
+                              .AllowAnyOrigin())
+               .UseCors("Conta Financeira Policy");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ContaFinanceira.Domain.Entities;
+using ContaFinanceira.Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -23,13 +24,25 @@ namespace ContaFinanceira.Persistance.Configurations
                    .HasMaxLength(50)
                    .IsRequired();
 
+            builder.Property(x => x.TipoPessoa)
+                   .HasConversion(
+                        x => x.ToString(),
+                        x => (ePessoa)Enum.Parse(typeof(ePessoa), x)
+                    );
+
+            builder.Property(x => x.CpfCnpj)
+                   .HasMaxLength(14)
+                   .IsRequired();
+
             builder.HasIndex(x => new { x.Id, x.ContaId });
 
             builder.HasData(new Cliente() 
             { 
                 Id = 1,
                 Nome = "Nathália Lopes",
-                ContaId = 1
+                ContaId = 1,
+                TipoPessoa = ePessoa.PessoaFisica,
+                CpfCnpj = "51865798916"
             });
         }
     }

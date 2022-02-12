@@ -34,14 +34,7 @@ namespace ContaFinanceira.Application.Services
         {
             var _cliente = await _clienteRepository.PesquisarPorConta(request.ContaId);
 
-            if (CriptografiaUtil.VerificaSenhaCriptografada(_cliente.Conta.Senha, request.Senha))
-            {
-                var _token = await GerarToken(_cliente, request.Senha);
-
-                return _token;
-            }
-            else
-                return null;
+            return await GerarToken(_cliente, request.Senha);
         }
 
         private Task<TokenResponse> GerarToken(Cliente cliente, string senha)

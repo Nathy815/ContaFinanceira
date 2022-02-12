@@ -32,5 +32,13 @@ namespace ContaFinanceira.Persistance.Repositories
                                  .AsNoTracking()
                                  .ToListAsync();
         }
+
+        public async Task<Agencia> Pesquisar(int id)
+        {
+            return await _context.Agencias
+                                 .AsNoTracking()
+                                 .Where(x => x.Id == id)
+                                 .FirstOrDefaultAsync();
+        }
     }
 }

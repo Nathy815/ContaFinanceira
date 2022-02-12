@@ -40,8 +40,7 @@ namespace ContaFinanceira.Persistance.Repositories
             return _context.Transacoes
                            .AsNoTracking()
                            .Where(x => x.ContaId == contaId)
-                           .Select(x => x.Valor)
-                           .Sum();
+                           .Sum(x => x.Valor);
         }
     }
 }

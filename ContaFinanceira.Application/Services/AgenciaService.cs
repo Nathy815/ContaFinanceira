@@ -28,5 +28,10 @@ namespace ContaFinanceira.Application.Services
 
             return agencias;
         }
+
+        public async Task<bool> ValidaAgencia(int id)
+        {
+            return await _agenciaRepository.Pesquisar(id) != null;
+        }
     }
 }

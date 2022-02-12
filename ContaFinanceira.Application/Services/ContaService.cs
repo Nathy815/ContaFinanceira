@@ -36,7 +36,9 @@ namespace ContaFinanceira.Application.Services
             {
                 Cliente = new Cliente()
                 {
-                    Nome = request.NomeCliente
+                    Nome = request.NomeCliente,
+                    TipoPessoa = request.TipoPessoa,
+                    CpfCnpj = request.CpfCnpj
                 },
                 AgenciaId = request.AgenciaId,
                 Senha = CriptografiaUtil.CriptografarSenha(request.Senha),
@@ -52,6 +54,18 @@ namespace ContaFinanceira.Application.Services
                 AgenciaId = conta.AgenciaId,
                 ClienteNome = conta.Cliente.Nome
             };
+        }
+
+        public async Task<bool> ValidaContaExiste(int id)
+        {
+            return await _contaRepository.Pesquisar(id) != null;
+        }
+
+        public async Task<bool> ValidaSenhaCorreta(int contaId, string senha)
+        {
+            var conta = await _contaRepository.Pesquisar(contaId);
+
+            return CriptografiaUtil.VerificaSenhaCriptografada(conta.Senha, senha);
         }
     }
 }

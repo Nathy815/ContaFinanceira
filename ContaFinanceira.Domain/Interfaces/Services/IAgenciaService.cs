@@ -10,5 +10,6 @@ namespace ContaFinanceira.Domain.Interfaces.Services
     public interface IAgenciaService
     {
         Task<List<AgenciaResponse>> Listar();
+        Task<bool> ValidaAgencia(int id);
     }
 }

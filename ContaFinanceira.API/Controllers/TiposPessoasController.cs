@@ -15,27 +15,19 @@ namespace ContaFinanceira.API.Controllers
     {
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ListarTipoPessoa()
         {
-            try
-            {
-                var names = Enum.GetNames(typeof(ePessoa));
-                var result = new List<TipoPessoaResponse>();
-                var count = 1;
+            var names = Enum.GetNames(typeof(ePessoa));
+            var result = new List<TipoPessoaResponse>();
+            var count = 1;
 
-                foreach (var name in names)
-                {
-                    result.Add(new TipoPessoaResponse() { Id = count, Nome = name });
-                    count++;
-                }
-
-                return new OkObjectResult(result);
-            }
-            catch (Exception ex)
+            foreach (var name in names)
             {
-                return StatusCode(500, ex.Message);
+                result.Add(new TipoPessoaResponse() { Id = count, Nome = name });
+                count++;
             }
+
+            return new OkObjectResult(result);
         }
     }
 }

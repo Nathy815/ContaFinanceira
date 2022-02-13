@@ -48,6 +48,8 @@ namespace ContaFinanceira.Persistance.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    TipoPessoa = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CpfCnpj = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: false),
                     ContaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -95,12 +97,12 @@ namespace ContaFinanceira.Persistance.Migrations
             migrationBuilder.InsertData(
                 table: "tbcf_contas",
                 columns: new[] { "Id", "AgenciaId", "DataCriacao", "Senha" },
-                values: new object[] { 1, 1, new DateTime(2022, 2, 11, 23, 18, 0, 0, DateTimeKind.Unspecified), "$2a$11$VWUh7TyMRjU/Xc/RyPHCHOpsO8gBQbzgT/aq9UATypmThq8t2i4iS" });
+                values: new object[] { 1, 1, new DateTime(2022, 2, 11, 23, 18, 0, 0, DateTimeKind.Unspecified), "$2a$11$4/WPXcRIcujksmWmnV6bBehoyugcezsR/wQ3Gq1zOKSi0WYuI8svm" });
 
             migrationBuilder.InsertData(
                 table: "tbcf_clientes",
-                columns: new[] { "Id", "ContaId", "Nome" },
-                values: new object[] { 1, 1, "Nathália Lopes" });
+                columns: new[] { "Id", "ContaId", "CpfCnpj", "Nome", "TipoPessoa" },
+                values: new object[] { 1, 1, "51865798916", "Nathália Lopes", "PessoaFisica" });
 
             migrationBuilder.InsertData(
                 table: "tbcf_transacoes",

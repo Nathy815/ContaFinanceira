@@ -2,11 +2,11 @@
 using ContaFinanceira.Domain.Interfaces.Services;
 using ContaFinanceira.Domain.Requests;
 using ContaFinanceira.Domain.Responses;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -35,7 +35,7 @@ namespace ContaFinanceira.API.Controllers
             {
                 var result = await _service.Criar(request);
 
-                return new OkObjectResult(result);
+                return new CreatedResult("", result);
             }
             catch (ValidationException val)
             {

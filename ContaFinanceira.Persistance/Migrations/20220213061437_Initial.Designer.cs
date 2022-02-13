@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ContaFinanceira.Persistance.Migrations
 {
     [DbContext(typeof(SqlServerContext))]
-    [Migration("20220212022139_Initial")]
+    [Migration("20220213061437_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,10 +60,19 @@ namespace ContaFinanceira.Persistance.Migrations
                     b.Property<int>("ContaId")
                         .HasColumnType("int");
 
+                    b.Property<string>("CpfCnpj")
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("nvarchar(14)");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("TipoPessoa")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -79,7 +88,9 @@ namespace ContaFinanceira.Persistance.Migrations
                         {
                             Id = 1,
                             ContaId = 1,
-                            Nome = "Nathália Lopes"
+                            CpfCnpj = "51865798916",
+                            Nome = "Nathália Lopes",
+                            TipoPessoa = "PessoaFisica"
                         });
                 });
 
@@ -114,7 +125,7 @@ namespace ContaFinanceira.Persistance.Migrations
                             Id = 1,
                             AgenciaId = 1,
                             DataCriacao = new DateTime(2022, 2, 11, 23, 18, 0, 0, DateTimeKind.Unspecified),
-                            Senha = "$2a$11$VWUh7TyMRjU/Xc/RyPHCHOpsO8gBQbzgT/aq9UATypmThq8t2i4iS"
+                            Senha = "$2a$11$4/WPXcRIcujksmWmnV6bBehoyugcezsR/wQ3Gq1zOKSi0WYuI8svm"
                         });
                 });
 

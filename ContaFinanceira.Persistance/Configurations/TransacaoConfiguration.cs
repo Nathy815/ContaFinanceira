@@ -23,6 +23,7 @@ namespace ContaFinanceira.Persistance.Configurations
                    .IsRequired();
 
             builder.Property(x => x.Valor)
+                   .HasColumnType("decimal(18,2)")
                    .IsRequired();
 
             builder.HasOne(x => x.Conta)

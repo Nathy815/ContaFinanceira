@@ -20,17 +20,10 @@ namespace ContaFinanceira.Application.Validations
             _contaService = contaService;
             _transacaoService = transacaoService;
 
-            RuleFor(x => x.ContaId)
-                .NotEqual(0)
-                    .WithMessage("Por favor, informe a conta.")
-                .Must((all, el) => _contaService.ValidaContaExiste(el).Result)
-                    .WithMessage("Conta inválida.");
-
             RuleFor(x => x.Valor)
                 .NotEqual(0)
                     .WithMessage("Por favor, informe um valor.")
                 .Must((all, el) => _transacaoService.ValidarSaldoSuficiente(all.ContaId, el))
-                    .When(x => x.Valor < 0)
                     .WithMessage("Saldo insuficiente.");
         }
     }

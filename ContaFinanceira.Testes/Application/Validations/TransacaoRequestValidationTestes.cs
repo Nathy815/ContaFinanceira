@@ -73,10 +73,11 @@ namespace ContaFinanceira.Testes.Application.Validations
         }
 
         [Fact]
-        public void TransacaoRequestValidation_Erro_ContaNaoInformada()
+        public void TransacaoRequestValidation_Erro_ValorNaoInformado()
         {
             //Arrange
-            var request = new TransacaoRequest() { Valor = -10M };
+            var request = new TransacaoRequest();
+            request.setConta(1);
 
             _transacaoService
                 .Setup(x => x.ValidarSaldoSuficiente(request.ContaId, request.Valor))
@@ -94,33 +95,7 @@ namespace ContaFinanceira.Testes.Application.Validations
             //Assert
             Assert.False(result.IsValid);
             Assert.Single(result.Errors);
-            Assert.NotNull(result.Errors.Where(x => x.PropertyName.Equals("ContaId") && x.ErrorMessage.Equals("Por favor, informe a conta.")).FirstOrDefault());
-        }
-
-        [Fact]
-        public void TransacaoRequestValidation_Erro_ContaNaoEncontrada()
-        {
-            //Arrange
-            var request = new TransacaoRequest() { Valor = -10M };
-            request.setConta(1);
-
-            _transacaoService
-                .Setup(x => x.ValidarSaldoSuficiente(request.ContaId, request.Valor))
-                .Returns(true);
-
-            _contaService
-                .Setup(x => x.ValidaContaExiste(request.ContaId))
-                .ReturnsAsync(false);
-
-            var validator = new TransacaoRequestValidation(_transacaoService.Object, _contaService.Object);
-
-            //Act
-            var result = validator.Validate(request);
-
-            //Assert
-            Assert.False(result.IsValid);
-            Assert.Single(result.Errors);
-            Assert.NotNull(result.Errors.Where(x => x.PropertyName.Equals("ContaId") && x.ErrorMessage.Equals("Conta inválida.")).FirstOrDefault());
+            Assert.NotNull(result.Errors.Where(x => x.PropertyName.Equals("Valor") && x.ErrorMessage.Equals("Por favor, informe um valor.")).FirstOrDefault());
         }
 
         [Fact]

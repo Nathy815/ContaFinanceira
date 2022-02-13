@@ -216,6 +216,61 @@ namespace ContaFinanceira.Testes.Application.Validations
         }
 
         [Fact]
+        public void ContaRequestValidation_Erro_CpfCnpjNaoInformado()
+        {
+            //Arrange
+            var _request = new ContaRequest()
+            {
+                NomeCliente = "Nathália Lopes",
+                AgenciaId = 2,
+                Senha = "12345",
+                TipoPessoa = ePessoa.PessoaJuridica
+            };
+
+            _agenciaService
+                .Setup(x => x.ValidaAgencia(_request.AgenciaId))
+                .ReturnsAsync(true);
+
+            var validator = new ContaRequestValidation(_agenciaService.Object);
+
+            //Act
+            var result = validator.Validate(_request);
+
+            //Assert
+            Assert.False(result.IsValid);
+            Assert.NotEmpty(result.Errors);
+            Assert.NotNull(result.Errors.Where(x => x.PropertyName.Equals("CpfCnpj") && x.ErrorMessage.Equals("Por favor, informe um CPF/CNPJ.")).FirstOrDefault());
+        }
+
+        [Fact]
+        public void ContaRequestValidation_Erro_CpfInvalido()
+        {
+            //Arrange
+            var _request = new ContaRequest()
+            {
+                NomeCliente = "Nathália Lopes",
+                AgenciaId = 2,
+                CpfCnpj = "71812201000115",
+                Senha = "12345",
+                TipoPessoa = ePessoa.PessoaFisica
+            };
+
+            _agenciaService
+                .Setup(x => x.ValidaAgencia(_request.AgenciaId))
+                .ReturnsAsync(true);
+
+            var validator = new ContaRequestValidation(_agenciaService.Object);
+
+            //Act
+            var result = validator.Validate(_request);
+
+            //Assert
+            Assert.False(result.IsValid);
+            Assert.NotEmpty(result.Errors);
+            Assert.NotNull(result.Errors.Where(x => x.PropertyName.Equals("CpfCnpj") && x.ErrorMessage.Equals("CPF/CNPJ inválido.")).FirstOrDefault());
+        }
+
+        [Fact]
         public void ContaRequestValidation_Erro_CnpjInvalido()
         {
             //Arrange
@@ -240,7 +295,7 @@ namespace ContaFinanceira.Testes.Application.Validations
             //Assert
             Assert.False(result.IsValid);
             Assert.NotEmpty(result.Errors);
-            Assert.NotNull(result.Errors.Where(x => x.PropertyName.Equals("CpfCnpj") && x.ErrorMessage.Equals("O valor de CNPJ deve conter 14 caracteres.")).FirstOrDefault());
+            Assert.NotNull(result.Errors.Where(x => x.PropertyName.Equals("CpfCnpj") && x.ErrorMessage.Equals("CPF/CNPJ inválido.")).FirstOrDefault());
         }
 
         [Fact]

@@ -19,10 +19,13 @@ namespace ContaFinanceira.API.Controllers
     public class TransacoesController : ControllerBase
     {
         private readonly ITransacaoService _service;
+        private readonly IHttpContextAccessor _httpContext;
 
-        public TransacoesController(ITransacaoService service)
+        public TransacoesController(ITransacaoService service,
+                                    IHttpContextAccessor httpContext)
         {
             _service = service;
+            _httpContext = httpContext;
         }
 
         [HttpPost]
@@ -36,7 +39,7 @@ namespace ContaFinanceira.API.Controllers
         {
             try
             {
-                var contaId = HttpContext.User.Claims.FirstOrDefault();
+                var contaId = _httpContext.HttpContext.User.Claims.FirstOrDefault();
 
                 if (contaId == null)
                     return StatusCode(401, "Usuário não logado.");
@@ -45,7 +48,7 @@ namespace ContaFinanceira.API.Controllers
 
                 var result = await _service.Adicionar(request);
 
-                return new OkObjectResult(result);
+                return new CreatedResult("", result);
             }
             catch(ValidationException val)
             {

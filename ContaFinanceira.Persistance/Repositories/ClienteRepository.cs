@@ -31,7 +31,6 @@ namespace ContaFinanceira.Persistance.Repositories
             return await _context.Clientes
                                  .AsNoTracking()
                                  .Include(x => x.Conta)
-                                    .ThenInclude(x => x.Transacoes)
                                  .Where(x => x.Conta.Id == contaId)
                                  .FirstOrDefaultAsync();
         }

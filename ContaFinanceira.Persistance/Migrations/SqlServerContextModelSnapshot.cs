@@ -123,7 +123,7 @@ namespace ContaFinanceira.Persistance.Migrations
                             Id = 1,
                             AgenciaId = 1,
                             DataCriacao = new DateTime(2022, 2, 11, 23, 18, 0, 0, DateTimeKind.Unspecified),
-                            Senha = "$2a$11$suS.0JwXHYjqT7ZIIAAMeuwnaxiZko4kfMOH8.CDOxQ9V0covPWdq"
+                            Senha = "$2a$11$4/WPXcRIcujksmWmnV6bBehoyugcezsR/wQ3Gq1zOKSi0WYuI8svm"
                         });
                 });
 

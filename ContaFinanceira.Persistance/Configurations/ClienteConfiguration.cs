@@ -25,10 +25,8 @@ namespace ContaFinanceira.Persistance.Configurations
                    .IsRequired();
 
             builder.Property(x => x.TipoPessoa)
-                   .HasConversion(
-                        x => x.ToString(),
-                        x => (ePessoa)Enum.Parse(typeof(ePessoa), x)
-                    );
+                   .HasConversion<string>()
+                   .IsRequired();
 
             builder.Property(x => x.CpfCnpj)
                    .HasMaxLength(14)

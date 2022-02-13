@@ -35,16 +35,14 @@ namespace ContaFinanceira.Application.Validations
                     .WithMessage("Por favor, informe um valor válido de tipo de pessoa.");
 
             RuleFor(x => x.CpfCnpj)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                     .WithMessage("Por favor, informe um CPF/CNPJ.")
-                .Length(11)
-                    .When(x => x.TipoPessoa == ePessoa.PessoaFisica)
-                    .WithMessage("O valor de CPF deve conter 11 caracteres.")
-                .Length(14)
-                    .When(x => x.TipoPessoa == ePessoa.PessoaJuridica)
-                    .WithMessage("O valor de CNPJ deve conter 14 caracteres.");
+                .Must((all, el) => (el.Length == 11 && all.TipoPessoa == ePessoa.PessoaFisica) || (el.Length == 14 && all.TipoPessoa == ePessoa.PessoaJuridica))
+                    .WithMessage("CPF/CNPJ inválido.");
 
             RuleFor(x => x.Senha)
+                .Cascade(CascadeMode.Stop)
                 .NotEmpty()
                     .WithMessage("Por favor, informe uma senha.")
                 .MinimumLength(5)

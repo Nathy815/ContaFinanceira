@@ -18,4 +18,8 @@
     <ProjectReference Include="..\ContaFinanceira.Utils\ContaFinanceira.Utils.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

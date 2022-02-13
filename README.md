@@ -42,6 +42,7 @@ A autenticação é necessária para realizar qualquer tipo de transação (saqu
 # Contas
 Criação de nova conta bancária para pessoa física ou jurídica.
 Caso deseje, no momento da abertura da conta, o usuário pode fazer um depósito inicial.
+
 ![Descrição da chamada POST /api/contas](./medias/3_contas.png)
 
 
@@ -69,11 +70,12 @@ Para o funcionamento ideal da aplicação é necessário seguir uma determinada 
 
 
 # Como utilizar a aplicação
-Existem três formas de testar a aplicação: rodando-a no [**Visual Studio**](#debug-com-visual-studio), publicando-a no [**IIS**](#publicação-no-iis) e utilizando o [**Docker**](#docker).
+Existem três formas de testar a aplicação: rodando-a no [**Visual Studio**](#debug-com-visual-studio) ou utilizando o [**Docker**](#docker).
 Veja abaixo um passo a passo de como utilizar cada uma dessas opções:
 
-## Debug com Visual Studio
 1. Clone o repositório do git ou faça download do projeto
+
+## Debug com Visual Studio
 2. Abra a solução no Visual Studio 2019 ou posterior
 3. Abra o arquivo *ContasFinanceiras.API > appsettings.json* e altere o SqlServerConnection com suas informações
 ![Arquivo appsettings.json](./medias/3_appsettings.png)
@@ -94,13 +96,19 @@ Veja abaixo um passo a passo de como utilizar cada uma dessas opções:
 11. Siga o [passo a passo para testar a aplicação](#como-testar-a-aplicação)
 
 
-## Publicação no IIS
-
-
 ## Docker
+2. Caso não tenha o Docker instalado, baixe [**aqui**](https://hub.docker.com/editions/community/docker-ce-desktop-windows)
+3. Abra o prompt de comando e navegue até a pasta com o projeto *ContasFinanceiras.API*
+4. Digite os comandos abaixo:
+
+```
+docker build -t conta-financeira-app
+docker run -d -p 5001:80 --name contafinanceira conta-financeira-app 
+```
 
 
 # Como testar a aplicação
+A aplicação pode ser testada via Postman e Swagger. Veja abaixo um passo a passo sobre como fazer isso:
 
 ## Postman
 1. Baixe a collection <a id="raw-url" href="https://github.com/Nathy815/ContaFinanceira/tree/master/medias/ContaFinanceira.postman_collection.json">aqui</a>
@@ -129,3 +137,8 @@ Para execução da chamada /api/transacoes, é necessário adicionar o token na 
 
 3. Digite "Bearer " (com o espaço na frente), cole o token e clique em *Authorize*
 ![Como adicionar o token na header Authorize do Swagger](./medias/3_swagger_token.png)
+
+
+# Testes Unitários
+A aplicação possui testes unitários para os controllers, services, validações e repositórios.
+Para obter uma análise completa da cobertura, rode o seguinte comando:

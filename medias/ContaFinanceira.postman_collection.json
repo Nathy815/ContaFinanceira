@@ -1,0 +1,310 @@
+{
+	"info": {
+		"_postman_id": "2725b1d7-1070-4ef3-8fba-2e5e47f95770",
+		"name": "ContaFinanceira",
+		"description": "API para abertura de conta financeira para pessoa física e ou jurídica.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listagem Tipos Pessoas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/TiposPessoas",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"TiposPessoas"
+					]
+				},
+				"description": "Listagem de Tipos de Pessoas.\nOpções disponíveis: 1 - Pessoa Física; 2 - Pessoa Jurídica\nNecessário buscar essa informação para informar na criação de conta."
+			},
+			"response": [
+				{
+					"name": "Listagem Tipos Pessoas",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/api/TiposPessoas",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"TiposPessoas"
+							]
+						}
+					},
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"nome\": \"PessoaFisica\"\n    },\n    {\n        \"id\": 2,\n        \"nome\": \"PessoaJuridica\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Listagem Agências",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/api/agencias",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"agencias"
+					]
+				},
+				"description": "Listagem de agências bancárias.\nOpções disponíveis: 1 - Agência 1; 2 - Agência 2\nNecessário buscar essa informação para informar na criação de conta."
+			},
+			"response": [
+				{
+					"name": "Listagem Agências",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"nome\": \"Agência 1\"\n    },\n    {\n        \"id\": 2,\n        \"nome\": \"Agência 2\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Autenticação de Clientes",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contaId\": 1,\r\n    \"senha\": \"12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/clientes",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"clientes"
+					]
+				},
+				"description": "Autenticação de usuários.\nNecessário já ter conta criada.\nSem a autenticação, não é possível realizar transações."
+			},
+			"response": [
+				{
+					"name": "Autenticação de Clientes",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"contaId\": 1,\r\n    \"senha\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/clientes",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"clientes"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJOYXRow6FsaWEgTG9wZXMiLCJuYmYiOjE2NDQ3MzMwNTEsImV4cCI6MTY0NDc0NzQ1MSwiaWF0IjoxNjQ0NzMzMDUxfQ.7uTvnEYJnNVAGMyFh1GmhGr2hRdlX3L_RLByzijq0kY\",\n    \"validation\": \"2022-02-13T10:17:31Z\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Criação de Conta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nomeCliente\": \"Teste\",\r\n    \"agenciaId\": 1,\r\n    \"tipoPessoa\": 1,\r\n    \"cpfCnpj\": \"12345678901\",\r\n    \"senha\": \"12345\",\r\n    \"depositoInicial\": 150\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/contas",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"contas"
+					]
+				},
+				"description": "Criação de uma nova conta corrente.\nCaso deseje, o usuário pode realizar um depósito inicial."
+			},
+			"response": [
+				{
+					"name": "Criação de Conta",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeCliente\": \"Teste\",\r\n    \"agenciaId\": 1,\r\n    \"tipoPessoa\": 1,\r\n    \"cpfCnpj\": \"12345678901\",\r\n    \"senha\": \"12345\",\r\n    \"depositoInicial\": 150\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/contas",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"contas"
+							]
+						}
+					},
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"id\": 2,\n    \"agenciaId\": 1,\n    \"clienteNome\": \"Teste\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Realizar Transação",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJOYXRow6FsaWEgTG9wZXMiLCJuYmYiOjE2NDQ3MzM0NzUsImV4cCI6MTY0NDc0Nzg3NSwiaWF0IjoxNjQ0NzMzNDc1fQ.aW4K3VwAsbLoMsAzLhNtc8VUTKpfXmbVCclqGVMbDhY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"valor\": 150\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/api/transacoes",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"api",
+						"transacoes"
+					]
+				},
+				"description": "Realização de transações de saque e depósito.\nAs operações são identificadas pelo valor: se é positivo, trata-se de um depósito; se é negativo, trata-se de um saque.\nPara realizar uma transação de saque é necessário ter saldo."
+			},
+			"response": [
+				{
+					"name": "Realizar Transação",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"valor\": 150\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/transacoes",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"transacoes"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 3,\n        \"data\": \"2022-02-13T03:26:56.9570451\",\n        \"valor\": 150\n    },\n    {\n        \"id\": 1,\n        \"data\": \"2022-02-11T23:18:00\",\n        \"valor\": 10\n    }\n]"
+				}
+			]
+		}
+	]
+}

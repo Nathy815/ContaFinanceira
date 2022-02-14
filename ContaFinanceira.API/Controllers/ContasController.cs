@@ -5,6 +5,8 @@ using ContaFinanceira.Domain.Responses;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +20,13 @@ namespace ContaFinanceira.API.Controllers
     public class ContasController : ControllerBase
     {
         private readonly IContaService _service;
+        private readonly ILogger<ContasController> _logger;
 
-        public ContasController(IContaService service)
+        public ContasController(IContaService service,
+                                ILogger<ContasController> logger)
         {
             _service = service;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -33,16 +38,24 @@ namespace ContaFinanceira.API.Controllers
         {
             try
             {
+                _logger.LogInformation("Iniciando requisição de Criar() com {request}...", JsonConvert.SerializeObject(request));
+
                 var result = await _service.Criar(request);
+
+                _logger.LogInformation("Requisição Criar() processada com sucesso! Retorno: {result}", JsonConvert.SerializeObject(result));
 
                 return new CreatedResult("", result);
             }
             catch (ValidationException val)
             {
+                _logger.LogWarning("Validação da requisição de Criar() retornou erros. Detalhes: {erros}", JsonConvert.SerializeObject(val));
+
                 return new BadRequestObjectResult(val.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError("Erro ao processar requisição Criar(). Detalhes: {erro}", JsonConvert.SerializeObject(ex));
+
                 return StatusCode(500, ex.Message);
             }
         }

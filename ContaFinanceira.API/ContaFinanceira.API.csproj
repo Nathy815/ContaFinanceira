@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ContaFinanceira.Application\ContaFinanceira.Application.csproj" />
     <ProjectReference Include="..\ContaFinanceira.Domain\ContaFinanceira.Domain.csproj" />
+    <ProjectReference Include="..\ContaFinanceira.Middleware\ContaFinanceira.Middleware.csproj" />
     <ProjectReference Include="..\ContaFinanceira.Persistance\ContaFinanceira.Persistance.csproj" />
   </ItemGroup>
 

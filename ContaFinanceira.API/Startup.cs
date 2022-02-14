@@ -24,6 +24,7 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using ContaFinanceira.Domain.Requests;
 using ContaFinanceira.Application.Validations;
+using ContaFinanceira.Middleware;
 
 namespace ContaFinanceira.API
 {
@@ -55,6 +56,7 @@ namespace ContaFinanceira.API
             #region Validações
 
             services.AddMvc()
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_3_0) 
                     .AddFluentValidation();
 
             services.AddTransient<IValidator<AutenticacaoRequest>, AutenticacaoRequestValidation>()
@@ -159,6 +161,8 @@ namespace ContaFinanceira.API
                     }
                 });
             });
+
+            services.AddHttpContextAccessor();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -169,6 +173,8 @@ namespace ContaFinanceira.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Conta Financeira"));
             }
+
+            app.UseMiddleware<LoggerMiddleware>();
 
             app.UseHttpsRedirection();
 

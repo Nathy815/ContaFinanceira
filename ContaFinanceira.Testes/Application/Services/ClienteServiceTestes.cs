@@ -4,6 +4,7 @@ using ContaFinanceira.Domain.Enum;
 using ContaFinanceira.Domain.Interfaces.Repositories;
 using ContaFinanceira.Domain.Requests;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace ContaFinanceira.Testes.Application.Services
     {
         private readonly Mock<IClienteRepository> _clienteRepository;
         private readonly Mock<IConfiguration> _configuration;
+        private readonly Mock<ILogger<ClienteService>> _logger;
         private Cliente _cliente;
 
         public ClienteServiceTestes()
@@ -39,6 +41,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 CpfCnpj = "51865798916",
                 TipoPessoa = ePessoa.PessoaFisica
             };
+            _logger = new Mock<ILogger<ClienteService>>();
         }
 
         [Fact]
@@ -55,7 +58,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.GetSection(It.IsAny<string>()).Value)
                 .Returns("eiVDKkYtSmFOZFJnVWtYcA==");
 
-            var service = new ClienteService(_clienteRepository.Object, _configuration.Object);
+            var service = new ClienteService(_clienteRepository.Object, _configuration.Object, _logger.Object);
 
             //Act
             var result = await service.Autenticar(request);
@@ -78,7 +81,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.GetSection(It.IsAny<string>()).Value)
                 .Returns("Q29udGFGaW5hbmNlaXJh");
 
-            var service = new ClienteService(_clienteRepository.Object, _configuration.Object);
+            var service = new ClienteService(_clienteRepository.Object, _configuration.Object, _logger.Object);
 
             //Act and Assert
             await Assert.ThrowsAsync<NullReferenceException>(() => service.Autenticar(request));
@@ -98,7 +101,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.GetSection(It.IsAny<string>()).Value)
                 .Returns(It.IsAny<string>());
 
-            var service = new ClienteService(_clienteRepository.Object, _configuration.Object);
+            var service = new ClienteService(_clienteRepository.Object, _configuration.Object, _logger.Object);
 
             //Act and Assert
             await Assert.ThrowsAsync<ArgumentNullException>(() => service.Autenticar(request));

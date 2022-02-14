@@ -2,6 +2,7 @@
 using ContaFinanceira.Domain.Interfaces.Services;
 using ContaFinanceira.Domain.Responses;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,12 @@ namespace ContaFinanceira.Testes.API.Controllers
     public class AgenciasControllerTestes
     {
         private readonly Mock<IAgenciaService> _agenciaService;
+        private readonly Mock<ILogger<AgenciasController>> _logger;
 
         public AgenciasControllerTestes()
         {
             _agenciaService = new Mock<IAgenciaService>();
+            _logger = new Mock<ILogger<AgenciasController>>();
         }
 
         [Fact]
@@ -29,7 +32,7 @@ namespace ContaFinanceira.Testes.API.Controllers
                 .Setup(x => x.Listar())
                 .ReturnsAsync(new List<AgenciaResponse>() { new AgenciaResponse() { Id = 1, Nome = "Agência 1" } });
 
-            var _controller = new AgenciasController(_agenciaService.Object);
+            var _controller = new AgenciasController(_agenciaService.Object, _logger.Object);
 
             //Act
             var result = await _controller.Listar();
@@ -50,7 +53,7 @@ namespace ContaFinanceira.Testes.API.Controllers
                 .Setup(x => x.Listar())
                 .ThrowsAsync(new Exception("Erro ao comunicar-se com o banco de dados"));
 
-            var controller = new AgenciasController(_agenciaService.Object);
+            var controller = new AgenciasController(_agenciaService.Object, _logger.Object);
 
             //Act
             var result = await controller.Listar();

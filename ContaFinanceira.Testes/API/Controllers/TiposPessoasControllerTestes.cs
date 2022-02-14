@@ -1,6 +1,8 @@
 ﻿using ContaFinanceira.API.Controllers;
 using ContaFinanceira.Domain.Responses;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +14,18 @@ namespace ContaFinanceira.Testes.API.Controllers
 {
     public class TiposPessoasControllerTestes
     {
+        private readonly Mock<ILogger<TiposPessoasController>> _logger;
+
+        public TiposPessoasControllerTestes()
+        {
+            _logger = new Mock<ILogger<TiposPessoasController>>();
+        }
+
         [Fact]
         public async Task ListarTipoPessoa_Sucesso()
         {
             //Arrange
-            var controller = new TiposPessoasController();
+            var controller = new TiposPessoasController(_logger.Object);
 
             //Act
             var result = await controller.ListarTipoPessoa();

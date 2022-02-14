@@ -22,25 +22,36 @@ namespace ContaFinanceira.Application.Services
     {
         private readonly IClienteRepository _clienteRepository;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<ClienteService> _logger;
 
         public ClienteService(IClienteRepository clienteRepository,
-                              IConfiguration configuration)
+                              IConfiguration configuration,
+                              ILogger<ClienteService> logger)
         {
             _clienteRepository = clienteRepository;
             _configuration = configuration;
+            _logger = logger;
         }
 
         public async Task<TokenResponse> Autenticar(AutenticacaoRequest request)
         {
+            _logger.LogInformation("Buscando cliente no banco de dados pela conta Id:{id}...", request.ContaId);
+
             var _cliente = await _clienteRepository.PesquisarPorConta(request.ContaId);
+
+            _logger.LogInformation("Banco de dados retornou cliente {cliente}", JsonConvert.SerializeObject(_cliente));
 
             return await GerarToken(_cliente, request.Senha);
         }
 
         private Task<TokenResponse> GerarToken(Cliente cliente, string senha)
         {
+            _logger.LogInformation("Criando token para cliente {cliente} com senha {senha}", JsonConvert.SerializeObject(cliente), senha);
+
             var handler = new JwtSecurityTokenHandler();
             var key = Convert.FromBase64String(_configuration.GetSection("Authentication:SecurityKey").Value);
+
+            _logger.LogDebug("SecurityKey {key} recuperada do appsettings", key);
 
             var descriptor = new SecurityTokenDescriptor
             {
@@ -55,14 +66,15 @@ namespace ContaFinanceira.Application.Services
 
             var token = handler.CreateToken(descriptor);
 
-            return Task.Run(() =>
+            var response = new TokenResponse()
             {
-                return new TokenResponse()
-                {
-                    Token = handler.WriteToken(token),
-                    Validation = token.ValidTo
-                };
-            });
+                Token = handler.WriteToken(token),
+                Validation = token.ValidTo
+            };
+
+            _logger.LogInformation("Método GerarToken() retornando {retorno}", JsonConvert.SerializeObject(response));
+
+            return Task.Run(() => { return response; });
         }
     }
 }

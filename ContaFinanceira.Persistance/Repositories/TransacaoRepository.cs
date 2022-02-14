@@ -2,6 +2,8 @@
 using ContaFinanceira.Domain.Interfaces.Repositories;
 using ContaFinanceira.Persistance.Contexts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +21,12 @@ namespace ContaFinanceira.Persistance.Repositories
             _context = context;
         }
 
-        public async Task<Transacao> Criar(Transacao entity)
+        public async Task<Transacao> Criar(Transacao transacao)
         {
-            await _context.Transacoes.AddAsync(entity);
+            await _context.Transacoes.AddAsync(transacao);
             await _context.SaveChangesAsync();
-            return entity;
+
+            return transacao;
         }
 
         public async Task<List<Transacao>> Listar(int contaId)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ContaFinanceira.Domain.Interfaces.Repositories
 {
-    public interface IAgenciaRepository : IBaseRepository<Agencia>
+    public interface IAgenciaRepository
     {
         Task<List<Agencia>> Listar();
 

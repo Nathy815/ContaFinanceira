@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace ContaFinanceira.Domain.Interfaces.Repositories
 {
-    public interface ITransacaoRepository : IBaseRepository<Transacao>
+    public interface ITransacaoRepository
     {
+        Task<Transacao> Criar(Transacao transacao);
         decimal Saldo(int contaId);
         Task<List<Transacao>> Listar(int contaId);
     }

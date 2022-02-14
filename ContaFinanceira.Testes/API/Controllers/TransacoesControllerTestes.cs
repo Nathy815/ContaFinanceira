@@ -5,6 +5,7 @@ using ContaFinanceira.Domain.Responses;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -20,11 +21,13 @@ namespace ContaFinanceira.Testes.API.Controllers
     {
         private readonly Mock<ITransacaoService> _transacaoService;
         private readonly Mock<IHttpContextAccessor> _httpContext;
+        private readonly Mock<ILogger<TransacoesController>> _logger;
 
         public TransacoesControllerTestes()
         {
             _transacaoService = new Mock<ITransacaoService>();
             _httpContext = new Mock<IHttpContextAccessor>();
+            _logger = new Mock<ILogger<TransacoesController>>();
         }
 
         [Fact]
@@ -42,7 +45,7 @@ namespace ContaFinanceira.Testes.API.Controllers
                 .Setup(x => x.HttpContext.User.Claims)
                 .Returns(new List<Claim>() { new Claim(ClaimTypes.Sid, "1") });
 
-            var controller = new TransacoesController(_transacaoService.Object, _httpContext.Object);
+            var controller = new TransacoesController(_transacaoService.Object, _httpContext.Object, _logger.Object);
 
             //Act
             var result = await controller.Adicionar(request);
@@ -71,7 +74,7 @@ namespace ContaFinanceira.Testes.API.Controllers
                 .Setup(x => x.HttpContext.User.Claims)
                 .Returns(new List<Claim>());
 
-            var controller = new TransacoesController(_transacaoService.Object, _httpContext.Object);
+            var controller = new TransacoesController(_transacaoService.Object, _httpContext.Object, _logger.Object);
 
             //Act
             var result = await controller.Adicionar(request);
@@ -96,7 +99,7 @@ namespace ContaFinanceira.Testes.API.Controllers
                 .Setup(x => x.HttpContext.User.Claims)
                 .Returns(new List<Claim>() { new Claim(ClaimTypes.Sid, "1") });
 
-            var controller = new TransacoesController(_transacaoService.Object, _httpContext.Object);
+            var controller = new TransacoesController(_transacaoService.Object, _httpContext.Object, _logger.Object);
 
             //Act
             var result = await controller.Adicionar(request);
@@ -122,7 +125,7 @@ namespace ContaFinanceira.Testes.API.Controllers
                 .Setup(x => x.HttpContext.User.Claims)
                 .Returns(new List<Claim>() { new Claim(ClaimTypes.Sid, "1") });
 
-            var controller = new TransacoesController(_transacaoService.Object, _httpContext.Object);
+            var controller = new TransacoesController(_transacaoService.Object, _httpContext.Object, _logger.Object);
 
             //Act
             var result = await controller.Adicionar(request);

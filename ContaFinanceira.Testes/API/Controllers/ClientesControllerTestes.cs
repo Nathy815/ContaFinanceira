@@ -4,6 +4,7 @@ using ContaFinanceira.Domain.Requests;
 using ContaFinanceira.Domain.Responses;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,12 @@ namespace ContaFinanceira.Testes.API.Controllers
     public class ClientesControllerTestes
     {
         private readonly Mock<IClienteService> _clienteService;
+        private readonly Mock<ILogger<ClientesController>> _logger;
 
         public ClientesControllerTestes()
         {
             _clienteService = new Mock<IClienteService>();
+            _logger = new Mock<ILogger<ClientesController>>();
         }
 
         [Fact]
@@ -33,7 +36,7 @@ namespace ContaFinanceira.Testes.API.Controllers
                 .Setup(x => x.Autenticar(It.IsAny<AutenticacaoRequest>()))
                 .ReturnsAsync(response);
 
-            var controller = new ClientesController(_clienteService.Object);
+            var controller = new ClientesController(_clienteService.Object, _logger.Object);
 
             //Act
             var result = await controller.Autenticar(It.IsAny<AutenticacaoRequest>());
@@ -54,7 +57,7 @@ namespace ContaFinanceira.Testes.API.Controllers
                 .Setup(x => x.Autenticar(It.IsAny<AutenticacaoRequest>()))
                 .ThrowsAsync(new ValidationException("Conta inválida."));
 
-            var controller = new ClientesController(_clienteService.Object);
+            var controller = new ClientesController(_clienteService.Object, _logger.Object);
 
             //Act
             var result = await controller.Autenticar(It.IsAny<AutenticacaoRequest>());
@@ -73,7 +76,7 @@ namespace ContaFinanceira.Testes.API.Controllers
                 .Setup(x => x.Autenticar(It.IsAny<AutenticacaoRequest>()))
                 .ThrowsAsync(new Exception("Erro ao comunicar-se com o banco de dados"));
 
-            var controller = new ClientesController(_clienteService.Object);
+            var controller = new ClientesController(_clienteService.Object, _logger.Object);
 
             //Act
             var result = await controller.Autenticar(It.IsAny<AutenticacaoRequest>());

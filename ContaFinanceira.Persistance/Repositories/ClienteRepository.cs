@@ -19,13 +19,6 @@ namespace ContaFinanceira.Persistance.Repositories
             _context = context;
         }
 
-        public async Task<Cliente> Criar(Cliente entity)
-        {
-            await _context.Clientes.AddAsync(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
         public async Task<Cliente> PesquisarPorConta(int contaId)
         {
             return await _context.Clientes

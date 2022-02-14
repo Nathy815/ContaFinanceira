@@ -3,6 +3,7 @@ using ContaFinanceira.Domain.Entities;
 using ContaFinanceira.Domain.Enum;
 using ContaFinanceira.Domain.Interfaces.Repositories;
 using ContaFinanceira.Domain.Requests;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace ContaFinanceira.Testes.Application.Services
     public class ContaServiceTestes
     {
         private readonly Mock<IContaRepository> _contaRepository;
+        private readonly Mock<ILogger<ContaService>> _logger;
         private List<Conta> _contas;
 
         public ContaServiceTestes()
@@ -46,6 +48,7 @@ namespace ContaFinanceira.Testes.Application.Services
                     Senha = "$2a$12$2EXMNq57lYuw7ZAY7Stc/ulIoePfxKrcv1SxOtjtkpOJ1pxTDHTue"
                 }
             };
+            _logger = new Mock<ILogger<ContaService>>();
         }
 
         [Fact]
@@ -66,7 +69,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.Criar(It.IsAny<Conta>()))
                 .ReturnsAsync(_contas.First());
 
-            var service = new ContaService(_contaRepository.Object);
+            var service = new ContaService(_contaRepository.Object, _logger.Object);
 
             //Act
             var result = await service.Criar(request);
@@ -94,7 +97,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.Criar(It.IsAny<Conta>()))
                 .ReturnsAsync(_contas.First());
 
-            var service = new ContaService(_contaRepository.Object);
+            var service = new ContaService(_contaRepository.Object, _logger.Object);
 
             //Act
             var result = await service.Criar(request);
@@ -115,7 +118,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.Pesquisar(id))
                 .ReturnsAsync(_contas.Where(x => x.Id == id).FirstOrDefault());
 
-            var service = new ContaService(_contaRepository.Object);
+            var service = new ContaService(_contaRepository.Object, _logger.Object);
 
             //Act
             var result = await service.ValidaContaExiste(id);
@@ -134,7 +137,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.Pesquisar(id))
                 .ReturnsAsync(_contas.Where(x => x.Id == id).FirstOrDefault());
 
-            var service = new ContaService(_contaRepository.Object);
+            var service = new ContaService(_contaRepository.Object, _logger.Object);
 
             //Act
             var result = await service.ValidaContaExiste(id);
@@ -153,7 +156,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.Pesquisar(id))
                 .ReturnsAsync(_contas.Where(x => x.Id == id).FirstOrDefault());
 
-            var service = new ContaService(_contaRepository.Object);
+            var service = new ContaService(_contaRepository.Object, _logger.Object);
 
             //Act
             var result = await service.ValidaSenhaCorreta(id, senha);
@@ -172,7 +175,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.Pesquisar(id))
                 .ReturnsAsync(_contas.Where(x => x.Id == id).FirstOrDefault());
 
-            var service = new ContaService(_contaRepository.Object);
+            var service = new ContaService(_contaRepository.Object, _logger.Object);
 
             //Act
             var result = await service.ValidaSenhaCorreta(id, senha);
@@ -191,7 +194,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.Pesquisar(id))
                 .ReturnsAsync(_contas.Where(x => x.Id == id).FirstOrDefault());
 
-            var service = new ContaService(_contaRepository.Object);
+            var service = new ContaService(_contaRepository.Object, _logger.Object);
 
             //Act and Assert
             await Assert.ThrowsAsync<NullReferenceException>(() => service.ValidaSenhaCorreta(id, senha));

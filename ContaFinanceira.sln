@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContaFinanceira.Domain", "ContaFinanceira.Domain\ContaFinanceira.Domain.csproj", "{D85114EB-4DD2-46EE-A5A6-8DE1E8719FD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContaFinanceira.Domain", "ContaFinanceira.Domain\ContaFinanceira.Domain.csproj", "{D85114EB-4DD2-46EE-A5A6-8DE1E8719FD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContaFinanceira.Application", "ContaFinanceira.Application\ContaFinanceira.Application.csproj", "{CCA2BE28-D54C-4309-9283-EACD637558DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContaFinanceira.Application", "ContaFinanceira.Application\ContaFinanceira.Application.csproj", "{CCA2BE28-D54C-4309-9283-EACD637558DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContaFinanceira.Persistance", "ContaFinanceira.Persistance\ContaFinanceira.Persistance.csproj", "{8898D897-32FF-4951-8215-E9B79B616D98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContaFinanceira.Persistance", "ContaFinanceira.Persistance\ContaFinanceira.Persistance.csproj", "{8898D897-32FF-4951-8215-E9B79B616D98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContaFinanceira.Utils", "ContaFinanceira.Utils\ContaFinanceira.Utils.csproj", "{003205EE-B15F-4A7A-835B-25225F2F8019}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContaFinanceira.Utils", "ContaFinanceira.Utils\ContaFinanceira.Utils.csproj", "{003205EE-B15F-4A7A-835B-25225F2F8019}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContaFinanceira.API", "ContaFinanceira.API\ContaFinanceira.API.csproj", "{6F824D8B-17F2-4BFE-B850-BFB40C92F29C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContaFinanceira.API", "ContaFinanceira.API\ContaFinanceira.API.csproj", "{6F824D8B-17F2-4BFE-B850-BFB40C92F29C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContaFinanceira.Testes", "ContaFinanceira.Testes\ContaFinanceira.Testes.csproj", "{3E6EC749-8DD6-417A-8825-0616182FDD24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContaFinanceira.Testes", "ContaFinanceira.Testes\ContaFinanceira.Testes.csproj", "{3E6EC749-8DD6-417A-8825-0616182FDD24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContaFinanceira.Middleware", "ContaFinanceira.Middleware\ContaFinanceira.Middleware.csproj", "{54CC9273-83BB-4E78-B20B-4E8F034F103B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{3E6EC749-8DD6-417A-8825-0616182FDD24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E6EC749-8DD6-417A-8825-0616182FDD24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E6EC749-8DD6-417A-8825-0616182FDD24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54CC9273-83BB-4E78-B20B-4E8F034F103B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54CC9273-83BB-4E78-B20B-4E8F034F103B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54CC9273-83BB-4E78-B20B-4E8F034F103B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54CC9273-83BB-4E78-B20B-4E8F034F103B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

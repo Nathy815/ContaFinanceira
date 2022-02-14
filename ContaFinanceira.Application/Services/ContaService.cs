@@ -17,14 +17,19 @@ namespace ContaFinanceira.Application.Services
     public class ContaService : IContaService
     {
         private readonly IContaRepository _contaRepository;
+        private readonly ILogger<ContaService> _logger;
 
-        public ContaService(IContaRepository contaRepository)
+        public ContaService(IContaRepository contaRepository,
+                            ILogger<ContaService> logger)
         {
             _contaRepository = contaRepository;
+            _logger = logger;
         }
 
         public async Task<ContaResponse> Criar(ContaRequest request)
         {
+            _logger.LogInformation("Convertendo request {request} em Conta para banco de dados...", JsonConvert.SerializeObject(request));
+
             var transacoes = new List<Transacao>();
             if (request.DepositoInicial.HasValue && request.DepositoInicial.Value > 0)
                 transacoes.Add(new Transacao()
@@ -46,24 +51,37 @@ namespace ContaFinanceira.Application.Services
                 Transacoes = transacoes
             };
 
+            _logger.LogInformation("Enviando conta {conta} para o banco de dados...", JsonConvert.SerializeObject(conta));
+
             conta = await _contaRepository.Criar(conta);
 
-            return new ContaResponse()
+            var response = new ContaResponse()
             {
                 Id = conta.Id,
                 AgenciaId = conta.AgenciaId,
                 ClienteNome = conta.Cliente.Nome
             };
+
+            _logger.LogInformation("Método Criar() retornando {response}", JsonConvert.SerializeObject(response));
+
+            return response;
         }
 
         public async Task<bool> ValidaContaExiste(int id)
         {
+            _logger.LogInformation("Validando se conta Id:{id} existe no banco de dados...", id);
+
             return await _contaRepository.Pesquisar(id) != null;
         }
 
         public async Task<bool> ValidaSenhaCorreta(int contaId, string senha)
         {
+            _logger.LogInformation("Validando se conta Id:{id} existe no banco de dados...", contaId);
+
             var conta = await _contaRepository.Pesquisar(contaId);
+
+            _logger.LogInformation("Banco de dados retornou conta {conta}", JsonConvert.SerializeObject(conta));
+            _logger.LogInformation("Verificando se a conta Id:{id} possui a senha {senha}", contaId, senha);
 
             return CriptografiaUtil.VerificaSenhaCriptografada(conta.Senha, senha);
         }

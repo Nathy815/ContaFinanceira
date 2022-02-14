@@ -17,11 +17,12 @@ namespace ContaFinanceira.Persistance.Repositories
             _context = context;
         }
 
-        public async Task<Conta> Criar(Conta entity)
+        public async Task<Conta> Criar(Conta conta)
         {
-            await _context.Contas.AddAsync(entity);
+            await _context.Contas.AddAsync(conta);
             await _context.SaveChangesAsync();
-            return entity;
+
+            return conta;
         }
 
         public async Task<Conta> Pesquisar(int id)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ContaFinanceira.Domain.Interfaces.Repositories
 {
-    public interface IClienteRepository : IBaseRepository<Cliente>
+    public interface IClienteRepository
     {
         Task<Cliente> PesquisarPorConta(int contaId);
     }

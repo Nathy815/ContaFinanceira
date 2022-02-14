@@ -1,6 +1,7 @@
 ﻿using ContaFinanceira.Application.Services;
 using ContaFinanceira.Domain.Entities;
 using ContaFinanceira.Domain.Interfaces.Repositories;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace ContaFinanceira.Testes.Application.Services
     public class AgenciaServiceTestes
     {
         private readonly Mock<IAgenciaRepository> _agenciaRepository;
+        private readonly Mock<ILogger<AgenciaService>> _logger;
         private List<Agencia> _agencias;
 
         public AgenciaServiceTestes()
@@ -24,7 +26,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 new Agencia() { Id = 1, Nome = "Agência 1" },
                 new Agencia() { Id = 2, Nome = "Agência 2" }
             };
-
+            _logger = new Mock<ILogger<AgenciaService>>();
         }
 
         [Fact]
@@ -35,7 +37,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.Listar())
                 .ReturnsAsync(_agencias);
 
-            var service = new AgenciaService(_agenciaRepository.Object);
+            var service = new AgenciaService(_agenciaRepository.Object, _logger.Object);
 
             //Act
             var result = await service.Listar();
@@ -55,7 +57,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.Listar())
                 .ReturnsAsync(It.IsAny<List<Agencia>>());
 
-            var service = new AgenciaService(_agenciaRepository.Object);
+            var service = new AgenciaService(_agenciaRepository.Object, _logger.Object);
 
             //Act and Assert
             await Assert.ThrowsAsync<NullReferenceException>(() =>  service.Listar());
@@ -71,7 +73,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.Pesquisar(id))
                 .ReturnsAsync(_agencias.Where(x => x.Id == id).FirstOrDefault());
 
-            var service = new AgenciaService(_agenciaRepository.Object);
+            var service = new AgenciaService(_agenciaRepository.Object, _logger.Object);
 
             //Act
             var result = await service.ValidaAgencia(id);
@@ -90,7 +92,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.Pesquisar(id))
                 .ReturnsAsync(_agencias.Where(x => x.Id == id).FirstOrDefault());
 
-            var service = new AgenciaService(_agenciaRepository.Object);
+            var service = new AgenciaService(_agenciaRepository.Object, _logger.Object);
 
             //Act
             var result = await service.ValidaAgencia(id);

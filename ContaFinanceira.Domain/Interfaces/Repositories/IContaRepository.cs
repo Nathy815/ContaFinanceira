@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace ContaFinanceira.Domain.Interfaces.Repositories
 {
-    public interface IContaRepository : IBaseRepository<Conta>
+    public interface IContaRepository
     {
+        Task<Conta> Criar(Conta conta);
         Task<Conta> Pesquisar(int id);
     }
 }

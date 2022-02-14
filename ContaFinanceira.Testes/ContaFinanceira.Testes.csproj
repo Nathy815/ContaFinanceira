@@ -29,4 +29,8 @@
     <ProjectReference Include="..\ContaFinanceira.Persistance\ContaFinanceira.Persistance.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Persistance\" />
+  </ItemGroup>
+
 </Project>

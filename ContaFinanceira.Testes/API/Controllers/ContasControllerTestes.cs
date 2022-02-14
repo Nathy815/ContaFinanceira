@@ -4,6 +4,7 @@ using ContaFinanceira.Domain.Requests;
 using ContaFinanceira.Domain.Responses;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Threading.Tasks;
@@ -14,10 +15,12 @@ namespace ContaFinanceira.Testes.API.Controllers
     public class ContasControllerTestes
     {
         private readonly Mock<IContaService> _contaService;
+        private readonly Mock<ILogger<ContasController>> _logger;
 
         public ContasControllerTestes()
         {
             _contaService = new Mock<IContaService>();
+            _logger = new Mock<ILogger<ContasController>>();
         }
 
         [Fact]
@@ -30,7 +33,7 @@ namespace ContaFinanceira.Testes.API.Controllers
                 .Setup(x => x.Criar(It.IsAny<ContaRequest>()))
                 .ReturnsAsync(response);
 
-            var controller = new ContasController(_contaService.Object);
+            var controller = new ContasController(_contaService.Object, _logger.Object);
 
             //Act
             var result = await controller.Criar(It.IsAny<ContaRequest>());
@@ -52,7 +55,7 @@ namespace ContaFinanceira.Testes.API.Controllers
                 .Setup(x => x.Criar(It.IsAny<ContaRequest>()))
                 .ThrowsAsync(new ValidationException("Conta inválida."));
 
-            var controller = new ContasController(_contaService.Object);
+            var controller = new ContasController(_contaService.Object, _logger.Object);
 
             //Act
             var result = await controller.Criar(It.IsAny<ContaRequest>());
@@ -71,7 +74,7 @@ namespace ContaFinanceira.Testes.API.Controllers
                 .Setup(x => x.Criar(It.IsAny<ContaRequest>()))
                 .ThrowsAsync(new Exception("Erro ao comunicar-se ao banco de dados."));
 
-            var controller = new ContasController(_contaService.Object);
+            var controller = new ContasController(_contaService.Object, _logger.Object);
 
             //Act
             var result = await controller.Criar(It.IsAny<ContaRequest>());

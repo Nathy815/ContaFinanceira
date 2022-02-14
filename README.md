@@ -8,8 +8,9 @@ API Rest em .Net Core 5.0 para abertura de conta financeira para pessoa física 
 | **ContaFinanceira.API** | Contém os controllers da aplicação e configurações da aplicação (injeções de dependência, Cors, etc) |
 | **ContaFinanceira.Application** | Contém todos os serviços e validações do projeto, utilizados pelos controllers |
 | **ContaFinanceira.Domain** | Contém todas as entidades (de base de dados), requests, responses, enumns e interfaces do projeto |
+| **ContaFinanceira.Middleware** | Contém um interceptador de logs para inclusão de correlationId |
 | **ContaFinanceira.Persistance** | Contém a camada de conexão com o banco de dados, com contexto e repositórios |
-| **ContaFinanceira.Tests** | Contém todos os testes unitários dos controllers, services e repositórios do projeto |
+| **ContaFinanceira.Tests** | Contém todos os testes unitários dos contradores, services e validadores do projeto |
 | **ContaFinanceira.Util** | Contém itens úteis para execução dos serviços de Application, como criptografia |
 
 
@@ -137,8 +138,3 @@ Para execução da chamada /api/transacoes, é necessário adicionar o token na 
 
 3. Digite "Bearer " (com o espaço na frente), cole o token e clique em *Authorize*
 ![Como adicionar o token na header Authorize do Swagger](./medias/3_swagger_token.png)
-
-
-# Testes Unitários
-A aplicação possui testes unitários para os controllers, services, validações e repositórios.
-Para obter uma análise completa da cobertura, rode o seguinte comando:

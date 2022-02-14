@@ -32,12 +32,20 @@ namespace ContaFinanceira.Persistance.Configurations
                    .HasMaxLength(14)
                    .IsRequired();
 
+            builder.Property(x => x.Email)
+                   .HasMaxLength(100)
+                   .IsRequired();
+
             builder.HasIndex(x => new { x.Id, x.ContaId });
+
+            builder.HasIndex(x => x.Email)
+                   .IsUnique();
 
             builder.HasData(new Cliente() 
             { 
                 Id = 1,
                 Nome = "Nathália Lopes",
+                Email = "nathalialcoimbra@gmail.com",
                 ContaId = 1,
                 TipoPessoa = ePessoa.PessoaFisica,
                 CpfCnpj = "51865798916"

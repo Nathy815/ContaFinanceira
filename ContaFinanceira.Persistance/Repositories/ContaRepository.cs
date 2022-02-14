@@ -32,5 +32,14 @@ namespace ContaFinanceira.Persistance.Repositories
                                  .Where(x => x.Id == id)
                                  .FirstOrDefaultAsync();
         }
+
+        public async Task<Conta> PesquisarPorEmailCliente(string email)
+        {
+            return await _context.Contas
+                                 .AsNoTracking()
+                                 .Include(x => x.Cliente)
+                                 .Where(x => x.Cliente.Email.Equals(email))
+                                 .FirstOrDefaultAsync();
+        }
     }
 }

@@ -35,6 +35,7 @@ namespace ContaFinanceira.Testes.Application.Services
                         Id = 1,
                         Nome = "Nathália Lopes",
                         CpfCnpj = "51865798916",
+                        Email = "nathalialcoimbra@gmail.com",
                         TipoPessoa = ePessoa.PessoaFisica,
                         ContaId = 1
                     },
@@ -45,7 +46,16 @@ namespace ContaFinanceira.Testes.Application.Services
                     AgenciaId = 2,
                     DataCriacao = DateTime.Now,
                     Id = 2,
-                    Senha = "$2a$12$2EXMNq57lYuw7ZAY7Stc/ulIoePfxKrcv1SxOtjtkpOJ1pxTDHTue"
+                    Senha = "$2a$12$2EXMNq57lYuw7ZAY7Stc/ulIoePfxKrcv1SxOtjtkpOJ1pxTDHTue",
+                    Cliente = new Cliente()
+                    {
+                        Id = 2,
+                        Nome = "Anderson Araujo",
+                        CpfCnpj = "62976809027",
+                        Email = "anderson@mateusmais.com",
+                        TipoPessoa = ePessoa.PessoaFisica,
+                        ContaId = 2
+                    }
                 }
             };
             _logger = new Mock<ILogger<ContaService>>();
@@ -59,6 +69,7 @@ namespace ContaFinanceira.Testes.Application.Services
             { 
                 AgenciaId = 1,
                 CpfCnpj = "51865798916",
+                Email = "nathalialcoimbra@gmail.com",
                 NomeCliente = "Nathália Lopes",
                 Senha = "12345",
                 DepositoInicial = 10M,
@@ -88,6 +99,7 @@ namespace ContaFinanceira.Testes.Application.Services
             {
                 AgenciaId = 1,
                 CpfCnpj = "51865798916",
+                Email = "nathalialcoimbra@gmail.com",
                 NomeCliente = "Nathália Lopes",
                 Senha = "12345",
                 TipoPessoa = ePessoa.PessoaFisica
@@ -198,6 +210,44 @@ namespace ContaFinanceira.Testes.Application.Services
 
             //Act and Assert
             await Assert.ThrowsAsync<NullReferenceException>(() => service.ValidaSenhaCorreta(id, senha));
+        }
+    
+        [Fact]
+        public async Task ValidaEmailJaExiste_Sucesso()
+        {
+            //Arrange
+            var email = "nathalialcoimbra@gmail.com";
+
+            _contaRepository
+                .Setup(x => x.PesquisarPorEmailCliente(email))
+                .ReturnsAsync(_contas.Where(x => x.Cliente.Email.Equals(email)).FirstOrDefault());
+
+            var service = new ContaService(_contaRepository.Object, _logger.Object);
+
+            //Act
+            var result = await service.ValidaEmailJaExiste(email);
+
+            //Assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task ValidaEmailJaExiste_Erro()
+        {
+            //Arrange
+            var email = "nathy_fox-815@hotmail.com";
+
+            _contaRepository
+                .Setup(x => x.PesquisarPorEmailCliente(email))
+                .ReturnsAsync(_contas.Where(x => x.Cliente.Email.Equals(email)).FirstOrDefault());
+
+            var service = new ContaService(_contaRepository.Object, _logger.Object);
+
+            //Act
+            var result = await service.ValidaEmailJaExiste(email);
+
+            //Assert
+            Assert.False(result);
         }
     }
 }

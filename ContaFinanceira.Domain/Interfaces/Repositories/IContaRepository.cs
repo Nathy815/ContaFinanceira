@@ -11,5 +11,6 @@ namespace ContaFinanceira.Domain.Interfaces.Repositories
     {
         Task<Conta> Criar(Conta conta);
         Task<Conta> Pesquisar(int id);
+        Task<Conta> PesquisarPorEmailCliente(string email);
     }
 }

@@ -15,10 +15,12 @@ namespace ContaFinanceira.Testes.Application.Validations
     public class ContaRequestValidationTestes
     {
         private readonly Mock<IAgenciaService> _agenciaService;
+        private readonly Mock<IContaService> _contaService;
 
         public ContaRequestValidationTestes()
         {
             _agenciaService = new Mock<IAgenciaService>();
+            _contaService = new Mock<IContaService>();
             
         }
 
@@ -31,6 +33,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 NomeCliente = "Nathália Lopes",
                 AgenciaId = 1,
                 CpfCnpj = "51865798916",
+                Email = "nathalialcoimbra@gmail.com",
                 Senha = "12345",
                 TipoPessoa = ePessoa.PessoaFisica,
                 DepositoInicial = 10M
@@ -40,7 +43,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 .Setup(x => x.ValidaAgencia(_request.AgenciaId))
                 .ReturnsAsync(true);
 
-            var validator = new ContaRequestValidation(_agenciaService.Object);
+            var validator = new ContaRequestValidation(_agenciaService.Object, _contaService.Object);
 
             //Act
             var result = validator.Validate(_request);
@@ -59,6 +62,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 NomeCliente = "Nathália Lopes",
                 AgenciaId = 1,
                 CpfCnpj = "71812201000115",
+                Email = "nathalialcoimbra@gmail.com",
                 Senha = "12345",
                 TipoPessoa = ePessoa.PessoaJuridica
             };
@@ -67,7 +71,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 .Setup(x => x.ValidaAgencia(_request.AgenciaId))
                 .ReturnsAsync(true);
 
-            var validator = new ContaRequestValidation(_agenciaService.Object);
+            var validator = new ContaRequestValidation(_agenciaService.Object, _contaService.Object);
 
             //Act
             var result = validator.Validate(_request);
@@ -85,6 +89,7 @@ namespace ContaFinanceira.Testes.Application.Validations
             {
                 AgenciaId = 1,
                 CpfCnpj = "71812201000115",
+                Email = "nathalialcoimbra@gmail.com",
                 Senha = "12345",
                 TipoPessoa = ePessoa.PessoaJuridica
             };
@@ -93,7 +98,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 .Setup(x => x.ValidaAgencia(_request.AgenciaId))
                 .ReturnsAsync(true);
 
-            var validator = new ContaRequestValidation(_agenciaService.Object);
+            var validator = new ContaRequestValidation(_agenciaService.Object, _contaService.Object);
 
             //Act
             var result = validator.Validate(_request);
@@ -113,6 +118,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 NomeCliente = "Nathália Lopes Coimbra Nathália Lopes Coimbra Nathália Lopes Coimbra",
                 AgenciaId = 1,
                 CpfCnpj = "71812201000115",
+                Email = "nathalialcoimbra@gmail.com",
                 Senha = "12345",
                 TipoPessoa = ePessoa.PessoaJuridica
             };
@@ -121,7 +127,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 .Setup(x => x.ValidaAgencia(_request.AgenciaId))
                 .ReturnsAsync(true);
 
-            var validator = new ContaRequestValidation(_agenciaService.Object);
+            var validator = new ContaRequestValidation(_agenciaService.Object, _contaService.Object);
 
             //Act
             var result = validator.Validate(_request);
@@ -140,6 +146,7 @@ namespace ContaFinanceira.Testes.Application.Validations
             {
                 NomeCliente = "Nathália Lopes",
                 CpfCnpj = "71812201000115",
+                Email = "nathalialcoimbra@gmail.com",
                 Senha = "12345",
                 TipoPessoa = ePessoa.PessoaJuridica
             };
@@ -148,7 +155,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 .Setup(x => x.ValidaAgencia(_request.AgenciaId))
                 .ReturnsAsync(true);
 
-            var validator = new ContaRequestValidation(_agenciaService.Object);
+            var validator = new ContaRequestValidation(_agenciaService.Object, _contaService.Object);
 
             //Act
             var result = validator.Validate(_request);
@@ -168,6 +175,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 NomeCliente = "Nathália Lopes",
                 AgenciaId = 2,
                 CpfCnpj = "71812201000115",
+                Email = "nathalialcoimbra@gmail.com",
                 Senha = "12345",
                 TipoPessoa = ePessoa.PessoaJuridica
             };
@@ -176,7 +184,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 .Setup(x => x.ValidaAgencia(_request.AgenciaId))
                 .ReturnsAsync(false);
 
-            var validator = new ContaRequestValidation(_agenciaService.Object);
+            var validator = new ContaRequestValidation(_agenciaService.Object, _contaService.Object);
 
             //Act
             var result = validator.Validate(_request);
@@ -196,6 +204,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 NomeCliente = "Nathália Lopes",
                 AgenciaId = 1,
                 CpfCnpj = "71812201000115",
+                Email = "nathalialcoimbra@gmail.com",
                 Senha = "12345",
                 TipoPessoa = (ePessoa)3
             };
@@ -204,7 +213,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 .Setup(x => x.ValidaAgencia(_request.AgenciaId))
                 .ReturnsAsync(true);
 
-            var validator = new ContaRequestValidation(_agenciaService.Object);
+            var validator = new ContaRequestValidation(_agenciaService.Object, _contaService.Object);
 
             //Act
             var result = validator.Validate(_request);
@@ -224,6 +233,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 NomeCliente = "Nathália Lopes",
                 AgenciaId = 2,
                 Senha = "12345",
+                Email = "nathalialcoimbra@gmail.com",
                 TipoPessoa = ePessoa.PessoaJuridica
             };
 
@@ -231,7 +241,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 .Setup(x => x.ValidaAgencia(_request.AgenciaId))
                 .ReturnsAsync(true);
 
-            var validator = new ContaRequestValidation(_agenciaService.Object);
+            var validator = new ContaRequestValidation(_agenciaService.Object, _contaService.Object);
 
             //Act
             var result = validator.Validate(_request);
@@ -252,6 +262,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 AgenciaId = 2,
                 CpfCnpj = "71812201000115",
                 Senha = "12345",
+                Email = "nathalialcoimbra@gmail.com",
                 TipoPessoa = ePessoa.PessoaFisica
             };
 
@@ -259,7 +270,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 .Setup(x => x.ValidaAgencia(_request.AgenciaId))
                 .ReturnsAsync(true);
 
-            var validator = new ContaRequestValidation(_agenciaService.Object);
+            var validator = new ContaRequestValidation(_agenciaService.Object, _contaService.Object);
 
             //Act
             var result = validator.Validate(_request);
@@ -280,6 +291,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 AgenciaId = 2,
                 CpfCnpj = "51865798916",
                 Senha = "12345",
+                Email = "nathalialcoimbra@gmail.com",
                 TipoPessoa = ePessoa.PessoaJuridica
             };
 
@@ -287,7 +299,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 .Setup(x => x.ValidaAgencia(_request.AgenciaId))
                 .ReturnsAsync(true);
 
-            var validator = new ContaRequestValidation(_agenciaService.Object);
+            var validator = new ContaRequestValidation(_agenciaService.Object, _contaService.Object);
 
             //Act
             var result = validator.Validate(_request);
@@ -299,6 +311,63 @@ namespace ContaFinanceira.Testes.Application.Validations
         }
 
         [Fact]
+        public void ContaRequestValidation_Erro_EmailNaoInformado()
+        {
+            //Arrange
+            var _request = new ContaRequest()
+            {
+                NomeCliente = "Nathália Lopes",
+                AgenciaId = 1,
+                CpfCnpj = "71812201000115",
+                Senha = "12345",
+                TipoPessoa = ePessoa.PessoaJuridica
+            };
+
+            _agenciaService
+                .Setup(x => x.ValidaAgencia(_request.AgenciaId))
+                .ReturnsAsync(true);
+
+            var validator = new ContaRequestValidation(_agenciaService.Object, _contaService.Object);
+
+            //Act
+            var result = validator.Validate(_request);
+
+            //Assert
+            Assert.False(result.IsValid);
+            Assert.NotEmpty(result.Errors);
+            Assert.NotNull(result.Errors.Where(x => x.PropertyName.Equals("Email") && x.ErrorMessage.Equals("Por favor, informe um e-mail.")).FirstOrDefault());
+        }
+
+        [Fact]
+        public void ContaRequestValidation_Erro_EmailInvalido()
+        {
+            //Arrange
+            var _request = new ContaRequest()
+            {
+                NomeCliente = "Nathália Lopes",
+                AgenciaId = 1,
+                CpfCnpj = "71812201000115",
+                Email = "teste",
+                Senha = "12345",
+                TipoPessoa = ePessoa.PessoaJuridica
+            };
+
+            _agenciaService
+                .Setup(x => x.ValidaAgencia(_request.AgenciaId))
+                .ReturnsAsync(true);
+
+            var validator = new ContaRequestValidation(_agenciaService.Object, _contaService.Object);
+
+            //Act
+            var result = validator.Validate(_request);
+
+            //Assert
+            Assert.False(result.IsValid);
+            Assert.NotEmpty(result.Errors);
+            Assert.NotNull(result.Errors.Where(x => x.PropertyName.Equals("Email") && x.ErrorMessage.Equals("E-mail inválido.")).FirstOrDefault());
+        }
+
+        [Fact]
         public void ContaRequestValidation_Erro_SenhaNaoInformada()
         {
             //Arrange
@@ -307,6 +376,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 NomeCliente = "Nathália Lopes",
                 AgenciaId = 2,
                 CpfCnpj = "71812201000115",
+                Email = "nathalialcoimbra@gmail.com",
                 TipoPessoa = ePessoa.PessoaJuridica
             };
 
@@ -314,7 +384,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 .Setup(x => x.ValidaAgencia(_request.AgenciaId))
                 .ReturnsAsync(true);
 
-            var validator = new ContaRequestValidation(_agenciaService.Object);
+            var validator = new ContaRequestValidation(_agenciaService.Object, _contaService.Object);
 
             //Act
             var result = validator.Validate(_request);
@@ -334,6 +404,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 NomeCliente = "Nathália Lopes",
                 AgenciaId = 2,
                 CpfCnpj = "71812201000115",
+                Email = "nathalialcoimbra@gmail.com",
                 Senha = "1234",
                 TipoPessoa = ePessoa.PessoaJuridica
             };
@@ -342,7 +413,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 .Setup(x => x.ValidaAgencia(_request.AgenciaId))
                 .ReturnsAsync(true);
 
-            var validator = new ContaRequestValidation(_agenciaService.Object);
+            var validator = new ContaRequestValidation(_agenciaService.Object, _contaService.Object);
 
             //Act
             var result = validator.Validate(_request);
@@ -362,6 +433,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 NomeCliente = "Nathália Lopes",
                 AgenciaId = 2,
                 CpfCnpj = "71812201000115",
+                Email = "nathalialcoimbra@gmail.com",
                 Senha = "12345678901",
                 TipoPessoa = ePessoa.PessoaJuridica
             };
@@ -370,7 +442,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 .Setup(x => x.ValidaAgencia(_request.AgenciaId))
                 .ReturnsAsync(true);
 
-            var validator = new ContaRequestValidation(_agenciaService.Object);
+            var validator = new ContaRequestValidation(_agenciaService.Object, _contaService.Object);
 
             //Act
             var result = validator.Validate(_request);
@@ -390,6 +462,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 NomeCliente = "Nathália Lopes",
                 AgenciaId = 2,
                 CpfCnpj = "71812201000115",
+                Email = "nathalialcoimbra@gmail.com",
                 Senha = "1234567890",
                 TipoPessoa = ePessoa.PessoaJuridica,
                 DepositoInicial = 0M
@@ -399,7 +472,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 .Setup(x => x.ValidaAgencia(_request.AgenciaId))
                 .ReturnsAsync(true);
 
-            var validator = new ContaRequestValidation(_agenciaService.Object);
+            var validator = new ContaRequestValidation(_agenciaService.Object, _contaService.Object);
 
             //Act
             var result = validator.Validate(_request);

@@ -13,10 +13,13 @@ namespace ContaFinanceira.Application.Validations
     public class ContaRequestValidation : AbstractValidator<ContaRequest>
     {
         private readonly IAgenciaService _agenciaService;
+        private readonly IContaService _contaService;
 
-        public ContaRequestValidation(IAgenciaService agenciaService)
+        public ContaRequestValidation(IAgenciaService agenciaService,
+                                      IContaService contaService)
         {
             _agenciaService = agenciaService;
+            _contaService = contaService;
 
             RuleFor(x => x.NomeCliente)
                 .NotEmpty()
@@ -40,6 +43,15 @@ namespace ContaFinanceira.Application.Validations
                     .WithMessage("Por favor, informe um CPF/CNPJ.")
                 .Must((all, el) => (el.Length == 11 && all.TipoPessoa == ePessoa.PessoaFisica) || (el.Length == 14 && all.TipoPessoa == ePessoa.PessoaJuridica))
                     .WithMessage("CPF/CNPJ inválido.");
+
+            RuleFor(x => x.Email)
+                .Cascade(CascadeMode.Stop)
+                .NotEmpty()
+                    .WithMessage("Por favor, informe um e-mail.")
+                .EmailAddress()
+                    .WithMessage("E-mail inválido.")
+                .Must((all, el) => !_contaService.ValidaEmailJaExiste(el).Result)
+                    .WithMessage("E-mail já cadastrado.");
 
             RuleFor(x => x.Senha)
                 .Cascade(CascadeMode.Stop)

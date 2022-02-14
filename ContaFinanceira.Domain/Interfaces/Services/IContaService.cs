@@ -13,5 +13,6 @@ namespace ContaFinanceira.Domain.Interfaces.Services
         Task<ContaResponse> Criar(ContaRequest request);
         Task<bool> ValidaContaExiste(int id);
         Task<bool> ValidaSenhaCorreta(int contaId, string senha);
+        Task<bool> ValidaEmailJaExiste(string email);
     }
 }

@@ -43,7 +43,8 @@ namespace ContaFinanceira.Application.Services
                 {
                     Nome = request.NomeCliente,
                     TipoPessoa = request.TipoPessoa,
-                    CpfCnpj = request.CpfCnpj
+                    CpfCnpj = request.CpfCnpj,
+                    Email = request.Email
                 },
                 AgenciaId = request.AgenciaId,
                 Senha = CriptografiaUtil.CriptografarSenha(request.Senha),
@@ -84,6 +85,13 @@ namespace ContaFinanceira.Application.Services
             _logger.LogInformation("Verificando se a conta Id:{id} possui a senha {senha}", contaId, senha);
 
             return CriptografiaUtil.VerificaSenhaCriptografada(conta.Senha, senha);
+        }
+
+        public async Task<bool> ValidaEmailJaExiste(string email)
+        {
+            _logger.LogInformation("Validando se e-mail {email} existe no banco de dados...", email);
+
+            return await _contaRepository.PesquisarPorEmailCliente(email) != null;
         }
     }
 }

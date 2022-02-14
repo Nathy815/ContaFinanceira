@@ -98,12 +98,12 @@ Veja abaixo um passo a passo de como utilizar cada uma dessas opções:
 
 
 ## Docker
-2. Caso não tenha o Docker instalado, baixe [**aqui**](https://hub.docker.com/editions/community/docker-ce-desktop-windows)
+2. Caso não tenha o Docker instalado, baixe [**aqui**](https://hub.docker.com/editions/community/docker-ce-desktop-windows) e inicie-o
 3. Abra o prompt de comando e navegue até a pasta com o projeto *ContasFinanceiras.API*
 4. Digite os comandos abaixo:
 
 ```
-docker build -t conta-financeira-app
+docker build -t conta-financeira-app .
 docker run -d -p 5001:80 --name contafinanceira conta-financeira-app 
 ```
 

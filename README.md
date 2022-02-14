@@ -8,8 +8,9 @@ API Rest em .Net Core 5.0 para abertura de conta financeira para pessoa física 
 | **ContaFinanceira.API** | Contém os controllers da aplicação e configurações da aplicação (injeções de dependência, Cors, etc) |
 | **ContaFinanceira.Application** | Contém todos os serviços e validações do projeto, utilizados pelos controllers |
 | **ContaFinanceira.Domain** | Contém todas as entidades (de base de dados), requests, responses, enumns e interfaces do projeto |
+| **ContaFinanceira.Middleware** | Contém um interceptador de logs para inclusão de correlationId |
 | **ContaFinanceira.Persistance** | Contém a camada de conexão com o banco de dados, com contexto e repositórios |
-| **ContaFinanceira.Tests** | Contém todos os testes unitários dos controllers, services e repositórios do projeto |
+| **ContaFinanceira.Tests** | Contém todos os testes unitários dos contradores, services e validadores do projeto |
 | **ContaFinanceira.Util** | Contém itens úteis para execução dos serviços de Application, como criptografia |
 
 
@@ -74,12 +75,11 @@ Existem três formas de testar a aplicação: rodando-a no [**Visual Studio**](#
 Veja abaixo um passo a passo de como utilizar cada uma dessas opções:
 
 1. Clone o repositório do git ou faça download do projeto
-
-## Debug com Visual Studio
-2. Abra a solução no Visual Studio 2019 ou posterior
-3. Abra o arquivo *ContasFinanceiras.API > appsettings.json* e altere o SqlServerConnection com suas informações
+2. Abra o arquivo *ContasFinanceiras.API > appsettings.json* e altere o SqlServerConnection com suas informações
 ![Arquivo appsettings.json](./medias/3_appsettings.png)
 
+## Debug com Visual Studio
+3. Abra a solução no Visual Studio 2019 ou posterior
 4. Clique em *Ferramentas > Gerenciador de Pacotes do Nuget > Console do Gerenciador de Pacotes*
 ![Passo a passo para abrir Console do Gerenciador de Pacotes](./medias/4_gerenciador_pacotes.png)
 
@@ -97,14 +97,16 @@ Veja abaixo um passo a passo de como utilizar cada uma dessas opções:
 
 
 ## Docker
-2. Caso não tenha o Docker instalado, baixe [**aqui**](https://hub.docker.com/editions/community/docker-ce-desktop-windows)
-3. Abra o prompt de comando e navegue até a pasta com o projeto *ContasFinanceiras.API*
-4. Digite os comandos abaixo:
+3. Caso não tenha o Docker instalado, baixe [**aqui**](https://hub.docker.com/editions/community/docker-ce-desktop-windows) e inicie-o
+4. Abra o prompt de comando e navegue até a pasta com o projeto *ContasFinanceiras.API*
+5. Digite os comandos abaixo:
 
 ```
-docker build -t conta-financeira-app
+docker build -t conta-financeira-app .
 docker run -d -p 5001:80 --name contafinanceira conta-financeira-app 
 ```
+
+Também é possível executá-la no Docker pelo Visual Studio. No passo 9 de **debug com Visual Studio**(#debug-com-visual-studio) selecione a opção *Docker* para execução.
 
 
 # Como testar a aplicação
@@ -137,8 +139,3 @@ Para execução da chamada /api/transacoes, é necessário adicionar o token na 
 
 3. Digite "Bearer " (com o espaço na frente), cole o token e clique em *Authorize*
 ![Como adicionar o token na header Authorize do Swagger](./medias/3_swagger_token.png)
-
-
-# Testes Unitários
-A aplicação possui testes unitários para os controllers, services, validações e repositórios.
-Para obter uma análise completa da cobertura, rode o seguinte comando:

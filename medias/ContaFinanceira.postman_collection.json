@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2725b1d7-1070-4ef3-8fba-2e5e47f95770",
+		"_postman_id": "6fb28d35-773e-41d2-b2ba-5f0cecc6ce1e",
 		"name": "ContaFinanceira",
 		"description": "API para abertura de conta financeira para pessoa física e ou jurídica.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -46,7 +46,7 @@
 					},
 					"code": 200,
 					"_postman_previewlanguage": "json",
-					"header": null,
+					"header": [],
 					"cookie": [],
 					"body": "[\n    {\n        \"id\": 1,\n        \"nome\": \"PessoaFisica\"\n    },\n    {\n        \"id\": 2,\n        \"nome\": \"PessoaJuridica\"\n    }\n]"
 				}
@@ -77,12 +77,14 @@
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
-						"url": null
+						"url": {
+							"raw": ""
+						}
 					},
 					"status": "OK",
 					"code": 200,
 					"_postman_previewlanguage": "json",
-					"header": null,
+					"header": [],
 					"cookie": [],
 					"body": "[\n    {\n        \"id\": 1,\n        \"nome\": \"Agência 1\"\n    },\n    {\n        \"id\": 2,\n        \"nome\": \"Agência 2\"\n    }\n]"
 				}
@@ -147,7 +149,7 @@
 					"status": "OK",
 					"code": 200,
 					"_postman_previewlanguage": "json",
-					"header": null,
+					"header": [],
 					"cookie": [],
 					"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9zaWQiOiIxIiwidW5pcXVlX25hbWUiOiJOYXRow6FsaWEgTG9wZXMiLCJuYmYiOjE2NDQ3MzMwNTEsImV4cCI6MTY0NDc0NzQ1MSwiaWF0IjoxNjQ0NzMzMDUxfQ.7uTvnEYJnNVAGMyFh1GmhGr2hRdlX3L_RLByzijq0kY\",\n    \"validation\": \"2022-02-13T10:17:31Z\"\n}"
 				}
@@ -218,7 +220,7 @@
 					},
 					"code": 201,
 					"_postman_previewlanguage": "json",
-					"header": null,
+					"header": [],
 					"cookie": [],
 					"body": "{\n    \"id\": 2,\n    \"agenciaId\": 1,\n    \"clienteNome\": \"Teste\"\n}"
 				}
@@ -300,7 +302,7 @@
 					"status": "Created",
 					"code": 201,
 					"_postman_previewlanguage": "json",
-					"header": null,
+					"header": [],
 					"cookie": [],
 					"body": "[\n    {\n        \"id\": 3,\n        \"data\": \"2022-02-13T03:26:56.9570451\",\n        \"valor\": 150\n    },\n    {\n        \"id\": 1,\n        \"data\": \"2022-02-11T23:18:00\",\n        \"valor\": 10\n    }\n]"
 				}

@@ -57,6 +57,7 @@ Necessário informar a agência na criação de conta.
 Realização de uma determinada transação na conta, seja ela um saque ou um depósito.
 Necessário já ter uma conta criada e estar autenticado na plataforma.
 Caso o usuário deseje fazer um saque, o saldo da conta precisa ser verificado.
+Antes de finalizar o processo de transação, o sistema envia uma notificação para o e-mail do cliente cadastrado utilizando a API [**ContaFinanceira.Email**](https://github.com/Nathy815/ContaFinanceira.Email)
 ![Descrição da chamada POST /api/transacoes](./medias/5_transacoes.png)
 
 

@@ -1,10 +1,12 @@
 ﻿using ContaFinanceira.Application.Validations;
 using ContaFinanceira.Domain.Interfaces.Services;
 using ContaFinanceira.Domain.Requests;
+using Microsoft.AspNetCore.Http;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -14,12 +16,15 @@ namespace ContaFinanceira.Testes.Application.Validations
     public class TransacaoRequestValidationTestes
     {
         private readonly Mock<ITransacaoService> _transacaoService;
-        private readonly Mock<IContaService> _contaService;
+        private readonly Mock<IHttpContextAccessor> _httpContext;
 
         public TransacaoRequestValidationTestes()
         {
             _transacaoService = new Mock<ITransacaoService>();
-            _contaService = new Mock<IContaService>();
+            _httpContext = new Mock<IHttpContextAccessor>();
+            _httpContext
+                .Setup(x => x.HttpContext.User.Claims)
+                .Returns(new List<Claim>() { new Claim(ClaimTypes.Sid, "1") });
         }
 
         [Fact]
@@ -33,11 +38,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 .Setup(x => x.ValidarSaldoSuficiente(request.ContaId, request.Valor))
                 .Returns(true);
 
-            _contaService
-                .Setup(x => x.ValidaContaExiste(request.ContaId))
-                .ReturnsAsync(true);
-
-            var validator = new TransacaoRequestValidation(_transacaoService.Object, _contaService.Object);
+            var validator = new TransacaoRequestValidation(_transacaoService.Object, _httpContext.Object);
 
             //Act
             var result = validator.Validate(request);
@@ -58,11 +59,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 .Setup(x => x.ValidarSaldoSuficiente(request.ContaId, request.Valor))
                 .Returns(true);
 
-            _contaService
-                .Setup(x => x.ValidaContaExiste(request.ContaId))
-                .ReturnsAsync(true);
-
-            var validator = new TransacaoRequestValidation(_transacaoService.Object, _contaService.Object);
+            var validator = new TransacaoRequestValidation(_transacaoService.Object, _httpContext.Object);
 
             //Act
             var result = validator.Validate(request);
@@ -83,11 +80,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 .Setup(x => x.ValidarSaldoSuficiente(request.ContaId, request.Valor))
                 .Returns(true);
 
-            _contaService
-                .Setup(x => x.ValidaContaExiste(request.ContaId))
-                .ReturnsAsync(true);
-
-            var validator = new TransacaoRequestValidation(_transacaoService.Object, _contaService.Object);
+            var validator = new TransacaoRequestValidation(_transacaoService.Object, _httpContext.Object);
 
             //Act
             var result = validator.Validate(request);
@@ -109,11 +102,7 @@ namespace ContaFinanceira.Testes.Application.Validations
                 .Setup(x => x.ValidarSaldoSuficiente(request.ContaId, request.Valor))
                 .Returns(false);
 
-            _contaService
-                .Setup(x => x.ValidaContaExiste(request.ContaId))
-                .ReturnsAsync(true);
-
-            var validator = new TransacaoRequestValidation(_transacaoService.Object, _contaService.Object);
+            var validator = new TransacaoRequestValidation(_transacaoService.Object, _httpContext.Object);
 
             //Act
             var result = validator.Validate(request);

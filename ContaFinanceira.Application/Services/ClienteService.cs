@@ -39,14 +39,14 @@ namespace ContaFinanceira.Application.Services
 
             var _cliente = await _clienteRepository.PesquisarPorConta(request.ContaId);
 
-            _logger.LogInformation("Banco de dados retornou cliente {cliente}", JsonConvert.SerializeObject(_cliente));
+            _logger.LogInformation("Banco de dados retornou cliente Id:{id}", _cliente.Id);
 
             return await GerarToken(_cliente, request.Senha);
         }
 
         private Task<TokenResponse> GerarToken(Cliente cliente, string senha)
         {
-            _logger.LogInformation("Criando token para cliente {cliente} com senha {senha}", JsonConvert.SerializeObject(cliente), senha);
+            _logger.LogInformation("Criando token para cliente Id:{id} com senha {senha}", cliente.Id, senha);
 
             var handler = new JwtSecurityTokenHandler();
             var key = Convert.FromBase64String(_configuration.GetSection("Authentication:SecurityKey").Value);

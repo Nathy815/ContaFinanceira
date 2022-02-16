@@ -60,32 +60,6 @@ namespace ContaFinanceira.Testes.API.Controllers
         }
 
         [Fact]
-        public async Task Adicionar_Erro_NaoAutorizado()
-        {
-            //Arrange
-            var request = new TransacaoRequest() { Valor = 10M };
-            var response = new List<TransacaoResponse>() { new TransacaoResponse() { Id = 1, Data = DateTime.Now, Valor = 10M } };
-
-            _transacaoService
-                .Setup(x => x.Adicionar(request))
-                .ReturnsAsync(response);
-
-            _httpContext
-                .Setup(x => x.HttpContext.User.Claims)
-                .Returns(new List<Claim>());
-
-            var controller = new TransacoesController(_transacaoService.Object, _httpContext.Object, _logger.Object);
-
-            //Act
-            var result = await controller.Adicionar(request);
-
-            //Assert
-            var model = Assert.IsAssignableFrom<ObjectResult>(result);
-            Assert.Equal(401, model.StatusCode);
-            Assert.Equal("Usuário não logado.", model.Value);
-        }
-
-        [Fact]
         public async Task Adicionar_Erro_Validacao()
         {
             //Arrange

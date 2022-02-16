@@ -26,7 +26,12 @@ namespace ContaFinanceira.Persistance.Repositories
             await _context.Transacoes.AddAsync(transacao);
             await _context.SaveChangesAsync();
 
-            return transacao;
+            return await _context.Transacoes
+                                 .AsNoTracking()
+                                 .Include(x => x.Conta)
+                                      .ThenInclude(x => x.Cliente)
+                                 .Where(x => x.Id == transacao.Id)
+                                 .FirstOrDefaultAsync();
         }
 
         public async Task<List<Transacao>> Listar(int contaId)
@@ -44,6 +49,15 @@ namespace ContaFinanceira.Persistance.Repositories
                            .AsNoTracking()
                            .Where(x => x.ContaId == contaId)
                            .Sum(x => x.Valor);
+        }
+
+        public async Task SetNotificacaoEnviada(int id)
+        {
+            var entity = await _context.Transacoes.Where(x => x.Id == id).FirstOrDefaultAsync();
+            entity.NotificacaoEnviada = true;
+            
+            _context.Transacoes.Update(entity);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -25,6 +25,9 @@ using FluentValidation;
 using ContaFinanceira.Domain.Requests;
 using ContaFinanceira.Application.Validations;
 using ContaFinanceira.Middleware;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using System.Buffers;
 
 namespace ContaFinanceira.API
 {
@@ -44,6 +47,7 @@ namespace ContaFinanceira.API
             services.AddTransient<IAgenciaService, AgenciaService>()
                     .AddTransient<IClienteService, ClienteService>()
                     .AddTransient<IContaService, ContaService>()
+                    .AddTransient<IEmailService, EmailService>()
                     .AddTransient<ITransacaoService, TransacaoService>();
 
             services.AddTransient<IAgenciaRepository, AgenciaRepository>()
@@ -54,6 +58,8 @@ namespace ContaFinanceira.API
             #endregion
 
             #region Validações
+
+            services.AddControllers();
 
             services.AddMvc()
                     .SetCompatibilityVersion(CompatibilityVersion.Version_3_0) 
@@ -118,8 +124,6 @@ namespace ContaFinanceira.API
             });
 
             #endregion
-
-            services.AddControllers();
 
             services.AddCors(x =>
             {

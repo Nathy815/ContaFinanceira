@@ -17,12 +17,15 @@ namespace ContaFinanceira.Application.Services
     {
         private readonly ITransacaoRepository _transacaoRepository;
         private readonly ILogger<TransacaoService> _logger;
+        private readonly IEmailService _emailService;
 
         public TransacaoService(ITransacaoRepository transacaoRepository,
-                                ILogger<TransacaoService> logger)
+                                ILogger<TransacaoService> logger,
+                                IEmailService emailService)
         {
             _transacaoRepository = transacaoRepository;
             _logger = logger;
+            _emailService = emailService;
         }
              
         public async Task<List<TransacaoResponse>> Adicionar(TransacaoRequest request)
@@ -38,7 +41,7 @@ namespace ContaFinanceira.Application.Services
 
             _logger.LogInformation("Enviando transação {transacao} para o banco de dados...", JsonConvert.SerializeObject(transacao));
 
-            await _transacaoRepository.Criar(transacao);
+            var result = await _transacaoRepository.Criar(transacao);
 
             _logger.LogInformation("Buscando todas as transações feitas pela conta Id:{id}...", request.ContaId);
 
@@ -54,6 +57,8 @@ namespace ContaFinanceira.Application.Services
                     Data = trans.Data,
                     Valor = trans.Valor
                 });
+
+            await _emailService.EnviarNotificacao(result);
 
             _logger.LogInformation("Método Adicionar() retornando {response}", JsonConvert.SerializeObject(response));
 

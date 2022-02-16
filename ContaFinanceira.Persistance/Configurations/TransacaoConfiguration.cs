@@ -26,6 +26,10 @@ namespace ContaFinanceira.Persistance.Configurations
                    .HasColumnType("decimal(18,2)")
                    .IsRequired();
 
+            builder.Property(x => x.NotificacaoEnviada)
+                   .IsRequired()
+                   .HasDefaultValue(false);
+
             builder.HasOne(x => x.Conta)
                    .WithMany(x => x.Transacoes)
                    .HasForeignKey(x => x.ContaId)

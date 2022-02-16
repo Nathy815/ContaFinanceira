@@ -1,6 +1,7 @@
 ﻿using ContaFinanceira.Application.Services;
 using ContaFinanceira.Domain.Entities;
 using ContaFinanceira.Domain.Interfaces.Repositories;
+using ContaFinanceira.Domain.Interfaces.Services;
 using ContaFinanceira.Domain.Requests;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -17,11 +18,17 @@ namespace ContaFinanceira.Testes.Application.Services
     {
         private readonly Mock<ITransacaoRepository> _transacaoRepository;
         private readonly Mock<ILogger<TransacaoService>> _logger;
+        private readonly Mock<IEmailService> _emailService;
         private List<Transacao> _transacoes;
 
         public TransacaoServiceTestes()
         {
             _transacaoRepository = new Mock<ITransacaoRepository>();
+            _emailService = new Mock<IEmailService>();
+            _emailService
+                .Setup(x => x.EnviarNotificacao(It.IsAny<Transacao>()))
+                .Verifiable();
+
             _transacoes = new List<Transacao>()
             {
                 new Transacao()
@@ -60,7 +67,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.Listar(It.IsAny<int>()))
                 .ReturnsAsync(_transacoes);
 
-            var service = new TransacaoService(_transacaoRepository.Object, _logger.Object);
+            var service = new TransacaoService(_transacaoRepository.Object, _logger.Object, _emailService.Object);
 
             //Act
             var result = await service.Adicionar(request);
@@ -90,7 +97,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.Listar(It.IsAny<int>()))
                 .ReturnsAsync(_transacoes);
 
-            var service = new TransacaoService(_transacaoRepository.Object, _logger.Object);
+            var service = new TransacaoService(_transacaoRepository.Object, _logger.Object, _emailService.Object);
 
             //Act
             var result = await service.Adicionar(request);
@@ -120,7 +127,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.Listar(It.IsAny<int>()))
                 .ReturnsAsync(It.IsAny<List<Transacao>>());
 
-            var service = new TransacaoService(_transacaoRepository.Object, _logger.Object);
+            var service = new TransacaoService(_transacaoRepository.Object, _logger.Object, _emailService.Object);
 
             //Act and Assert
             await Assert.ThrowsAsync<NullReferenceException>(() => service.Adicionar(request));
@@ -138,7 +145,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.Saldo(contaId))
                 .Returns(_transacoes.Where(x => x.ContaId == contaId).Sum(x => x.Valor));
 
-            var service = new TransacaoService(_transacaoRepository.Object, _logger.Object);
+            var service = new TransacaoService(_transacaoRepository.Object, _logger.Object, _emailService.Object);
 
             //Act
             var result = service.ValidarSaldoSuficiente(contaId, valor);
@@ -157,7 +164,7 @@ namespace ContaFinanceira.Testes.Application.Services
                 .Setup(x => x.Saldo(contaId))
                 .Returns(_transacoes.Where(x => x.ContaId == contaId).Sum(x => x.Valor));
 
-            var service = new TransacaoService(_transacaoRepository.Object, _logger.Object);
+            var service = new TransacaoService(_transacaoRepository.Object, _logger.Object, _emailService.Object);
 
             //Act
             var result = service.ValidarSaldoSuficiente(contaId, valor);

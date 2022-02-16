@@ -13,5 +13,6 @@ namespace ContaFinanceira.Domain.Entities
 
         public decimal Valor { get; set; }
         public DateTime Data { get; set; }
+        public bool NotificacaoEnviada { get; set; }
     }
 }

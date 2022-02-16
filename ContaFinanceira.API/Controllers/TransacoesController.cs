@@ -46,16 +46,8 @@ namespace ContaFinanceira.API.Controllers
             {
                 _logger.LogInformation("Verificando cliente logado para requisição Adicionar()...");
 
-                var contaId = _httpContext.HttpContext.User.Claims.FirstOrDefault();
-
-                if (contaId == null)
-                {
-                    _logger.LogWarning("Nenhum usuário logado para executar a requisição Adicionar()");
-
-                    return StatusCode(401, "Usuário não logado.");
-                }
-
-                request.setConta(Convert.ToInt32(contaId.Value));
+                var contaId = _httpContext.HttpContext.User.Claims.FirstOrDefault().Value;
+                request.setConta(Convert.ToInt32(contaId));
 
                 _logger.LogInformation("Iniciando requisição de Adicionar() com {request}...", JsonConvert.SerializeObject(request));
 
@@ -73,7 +65,7 @@ namespace ContaFinanceira.API.Controllers
             }
             catch(Exception ex)
             {
-                _logger.LogError("Erro ao processar requisição Adicionar(). Detalhes: {erro}", JsonConvert.SerializeObject(ex));
+                _logger.LogCritical("Erro ao processar requisição Adicionar(). Detalhes: {erro}", JsonConvert.SerializeObject(ex));
 
                 return StatusCode(500, ex.Message);
             }

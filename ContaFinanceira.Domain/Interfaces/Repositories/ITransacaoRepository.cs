@@ -12,5 +12,6 @@ namespace ContaFinanceira.Domain.Interfaces.Repositories
         Task<Transacao> Criar(Transacao transacao);
         decimal Saldo(int contaId);
         Task<List<Transacao>> Listar(int contaId);
+        Task SetNotificacaoEnviada(int id);
     }
 }

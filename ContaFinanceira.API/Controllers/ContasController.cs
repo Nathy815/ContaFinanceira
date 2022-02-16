@@ -54,7 +54,7 @@ namespace ContaFinanceira.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("Erro ao processar requisição Criar(). Detalhes: {erro}", JsonConvert.SerializeObject(ex));
+                _logger.LogCritical("Erro ao processar requisição Criar(). Detalhes: {erro}", JsonConvert.SerializeObject(ex));
 
                 return StatusCode(500, ex.Message);
             }
